@@ -1,7 +1,7 @@
 "use client";
 
 export default function Home() {
-  const handleLogin = () => {
+  const handleGoogleLogin = () => {
     window.location.href = `${process.env.NEXT_PUBLIC_BACKEND_URL}/oauth/google`;
   };
 
@@ -9,7 +9,7 @@ export default function Home() {
     <div className="flex min-h-screen items-center justify-center bg-zinc-50 font-sans dark:bg-black">
       <button
         className="flex p-2 rounded-lg bg-zinc-50 text-black"
-        onClick={handleLogin}
+        onClick={handleGoogleLogin}
       >
         Google Login
       </button>

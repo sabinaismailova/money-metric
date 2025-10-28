@@ -9,7 +9,7 @@ export default function ProfilePage() {
     async function fetchUserData() {
       try {
         const response = await fetch(
-          `${process.env.NEXT_PUBLIC_BACKEND_URL}/profile`,
+          `${process.env.NEXT_PUBLIC_BACKEND_URL}/user`,
           {
             credentials: "include",
           }
@@ -32,11 +32,11 @@ export default function ProfilePage() {
   if (error) return error;
 
   const handleLogout = () => {
-    window.location.href = `${process.env.NEXT_PUBLIC_BACKEND_URL}/logout`;
+    window.location.href = `${process.env.NEXT_PUBLIC_BACKEND_URL}/oauth/logout`;
   };
 
   return (
-    <main style={{ padding: "2rem" }}>
+    <main className="p-2">
       <h1>Welcome {user.displayName}</h1>
       <p>Email: {user.emails?.[0]?.value}</p>
       <button onClick={handleLogout}>Logout</button>
