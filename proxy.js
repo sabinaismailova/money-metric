@@ -1,0 +1,33 @@
+import { NextResponse } from "next/server";
+
+export async function proxy(req) {
+  const { pathname } = req.nextUrl;
+  console.log("were here")
+
+  const res = await fetch(`${process.env.NEXT_PUBLIC_BACKEND_URL}/user`, {
+    headers: {
+      cookie: req.headers.get("cookie") || "",
+    },
+    credentials: "include",
+  });
+
+  const isLoggedIn = res.ok;
+
+  if (!isLoggedIn && pathname === "/profile") {
+    return NextResponse.redirect(new URL("/", req.url));
+  }
+  if (!isLoggedIn && pathname === "/transactions") {
+    return NextResponse.redirect(new URL("/", req.url));
+  }
+  if (!isLoggedIn && pathname === "/transactions/add") {
+    return NextResponse.redirect(new URL("/", req.url));
+  }
+  if (isLoggedIn && pathname === "/") {
+    return NextResponse.redirect(new URL("/profile", req.url));
+  }
+  return NextResponse.next();
+}
+
+export const config = {
+  matcher: ["/", "/profile", "/transactions", "/transactions/add"],
+};
