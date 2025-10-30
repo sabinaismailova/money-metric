@@ -1,0 +1,53 @@
+table {
+    width: 100%;
+}
+
+tr {
+    display: flex;
+    justify-content: space-evenly;
+    align-items: start;
+    width: 100%;
+    height: auto;
+    border: 1px solid white;
+}
+
+td {
+    display: flex;
+    flex-direction: column;
+    justify-content: start;
+    align-items: start;
+    width: 100%;
+    height: auto;
+    border: 1px solid white;
+}
+
+thead {
+    display: flex;
+    justify-content: space-evenly;
+    align-items: start;
+    width: 100%;
+    height: auto;
+    border: 1px solid white;
+}
+
+.header {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: start;
+    width: 100%;
+    height: fit-content;
+}
+
+h1 {
+    font-size: xx-large;
+}
+
+.add-t-btn {
+    background-color: white;
+    padding: 4px;
+    padding-left: 8px;
+    padding-right: 8px;
+    border-radius: 8px;
+    color: black;
+}

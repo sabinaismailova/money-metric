@@ -1,0 +1,49 @@
+div {
+    color: white;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-evenly;
+    align-items: start;
+    height: 100vh;
+    margin-left: 4%;
+}
+
+form {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    align-items: start;
+    height: 80%;
+}
+
+select {
+    background-color: white;
+    color: black;
+    border-radius: 4px;
+}
+
+input {
+    background-color: white;
+    color: black;
+    border-radius: 4px;
+}
+
+textarea {
+    background-color: white;
+    color: black;
+    border-radius: 4px;
+}
+
+button {
+    background-color: white;
+    color: black;
+    padding: 4px;
+    padding-left: 8px;
+    padding-right: 8px;
+    border-radius: 8px;
+    margin-top: 16px;
+}
+
+h1 {
+    font-size: xx-large;
+}
