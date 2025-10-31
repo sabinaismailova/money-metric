@@ -53,6 +53,8 @@ export default function TransactionsPage() {
             <th>Amount</th>
             <th>Note</th>
             <th>Recurring</th>
+            <th>Recurrence Interval</th>
+            <th>Next recurrance</th>
           </tr>
         </thead>
         <tbody>
@@ -63,12 +65,23 @@ export default function TransactionsPage() {
           ) : (
             transactions.map((t) => (
               <tr key={t._id}>
-                <td>{new Date(t.date).toLocaleDateString()}</td>
+                <td>{new Date(t.date).toISOString().split("T")[0]}</td>
                 <td>{t.type}</td>
                 <td>{t.category}</td>
                 <td>${t.amount}</td>
                 <td>{t.note}</td>
                 <td>{t.isRecurring ? "Yes" : "No"}</td>
+                {t.isRecurring ? (
+                  <>
+                    <td>{t.recurrenceInterval}</td>
+                    <td>{new Date(t.nextRecurrence).toISOString().split("T")[0]}</td>
+                  </>
+                ) : (
+                  <>
+                    <td></td>
+                    <td></td>
+                  </>
+                )}
               </tr>
             ))
           )}

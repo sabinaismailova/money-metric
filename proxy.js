@@ -13,7 +13,7 @@ export async function proxy(req) {
 
   const isLoggedIn = res.ok;
 
-  if (!isLoggedIn && pathname === "/profile") {
+  if (!isLoggedIn && pathname === "/dashboard") {
     return NextResponse.redirect(new URL("/", req.url));
   }
   if (!isLoggedIn && pathname === "/transactions") {
@@ -23,11 +23,11 @@ export async function proxy(req) {
     return NextResponse.redirect(new URL("/", req.url));
   }
   if (isLoggedIn && pathname === "/") {
-    return NextResponse.redirect(new URL("/profile", req.url));
+    return NextResponse.redirect(new URL("/dashboard", req.url));
   }
   return NextResponse.next();
 }
 
 export const config = {
-  matcher: ["/", "/profile", "/transactions", "/transactions/add"],
+  matcher: ["/", "/dashboard", "/transactions", "/transactions/add"],
 };

@@ -2,7 +2,7 @@
 import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
 
-export default function ProfilePage() {
+export default function DashboardPage() {
   const [user, setUser] = useState(null);
   const [error, setError] = useState(null);
 
@@ -21,6 +21,7 @@ export default function ProfilePage() {
           throw new Error(`HTTP error! status: ${response.status}`);
         }
         const result = await response.json();
+        console.log("user info: ", result)
         setUser(result);
       } catch (err) {
         setError(err);
@@ -30,7 +31,7 @@ export default function ProfilePage() {
     fetchUserData();
   }, []);
 
-  if (!user) return <p>Loading profile...</p>;
+  if (!user) return <p>Loading dashboard...</p>;
 
   if (error) return error;
 
@@ -45,7 +46,7 @@ export default function ProfilePage() {
   return (
     <main className="p-2">
       <h1>Welcome {user.displayName}</h1>
-      <p>Email: {user.emails?.[0]?.value}</p>
+      <p>Email: {user.email}</p>
       <button onClick={handleLogout}>Logout</button>
       <br></br>
       <button onClick={handleTransactionsRedirect}>Transactions</button>
