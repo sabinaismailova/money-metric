@@ -19,6 +19,8 @@ export default function AddTransaction() {
 
   const router = useRouter();
 
+  const userTimezone = Intl.DateTimeFormat().resolvedOptions().timeZone;
+
   const handleChange = (e) => {
     const { name, value, type, checked } = e.target;
     setFormData((prev) => ({
@@ -35,7 +37,10 @@ export default function AddTransaction() {
           method: "POST",
           credentials: "include",
           headers: { "Content-Type": "application/json" },
-          body: JSON.stringify(formData),
+          body: JSON.stringify({
+            ...formData,
+            timezone: userTimezone
+          }),
         }
       );
 
@@ -44,9 +49,7 @@ export default function AddTransaction() {
       }
 
       const result = await response.json();
-      console.log(result);
       setSuccess("Transaction added successfully!");
-      console.log(result);
       router.push("/transactions");
     } catch (err) {
       setError(err);

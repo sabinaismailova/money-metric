@@ -8,6 +8,8 @@ export default function DashboardPage() {
 
   const router = useRouter();
 
+  const userTimezone = Intl.DateTimeFormat().resolvedOptions().timeZone;
+
   useEffect(() => {
     async function fetchUserData() {
       try {
@@ -15,13 +17,15 @@ export default function DashboardPage() {
           `${process.env.NEXT_PUBLIC_BACKEND_URL}/user`,
           {
             credentials: "include",
+            headers: {
+              'timezone': userTimezone
+            }
           }
         );
         if (!response.ok) {
           throw new Error(`HTTP error! status: ${response.status}`);
         }
         const result = await response.json();
-        console.log("user info: ", result)
         setUser(result);
       } catch (err) {
         setError(err);
@@ -47,6 +51,7 @@ export default function DashboardPage() {
     <main className="p-2">
       <h1>Welcome {user.displayName}</h1>
       <p>Email: {user.email}</p>
+      <p>Timezone: {userTimezone}</p>
       <button onClick={handleLogout}>Logout</button>
       <br></br>
       <button onClick={handleTransactionsRedirect}>Transactions</button>

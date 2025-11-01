@@ -2,7 +2,6 @@ import { NextResponse } from "next/server";
 
 export async function proxy(req) {
   const { pathname } = req.nextUrl;
-  console.log("were here")
 
   const res = await fetch(`${process.env.NEXT_PUBLIC_BACKEND_URL}/user`, {
     headers: {
