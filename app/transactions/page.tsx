@@ -1,7 +1,6 @@
 "use client";
 import { useEffect, useState } from "react";
-import Form from "next/form";
-import "./transactions.css";
+import styles from "./transactions.module.css";
 import { useRouter } from "next/navigation";
 
 export default function TransactionsPage() {
@@ -38,48 +37,48 @@ export default function TransactionsPage() {
 
   return (
     <div>
-      <div className="header">
-        <h1>Transactions</h1>
-        <button className="add-t-btn" onClick={handleAddTransaction}>
+      <div className={styles.header}>
+        <h1 className={styles.title}>Transactions</h1>
+        <button className={styles.addtbtn} onClick={handleAddTransaction}>
           + Add Transaction
         </button>
       </div>
-      <table>
-        <thead>
-          <tr>
-            <th>Date</th>
-            <th>Type</th>
-            <th>Category</th>
-            <th>Amount</th>
-            <th>Note</th>
-            <th>Recurring</th>
-            <th>Recurrence Interval</th>
-            <th>Next recurrance</th>
+      <table className={styles.table}>
+        <thead className={styles.thead}>
+          <tr className={styles.tr}>
+            <th className={styles.th}>Date</th>
+            <th className={styles.th}>Type</th>
+            <th className={styles.th}>Category</th>
+            <th className={styles.th}>Amount</th>
+            <th className={styles.th}>Note</th>
+            <th className={styles.th}>Recurring</th>
+            <th className={styles.th}>Recurrence Interval</th>
+            <th className={styles.th}>Next recurrance</th>
           </tr>
         </thead>
-        <tbody>
+        <tbody className={styles.tbody}>
           {transactions.length === 0 ? (
-            <tr>
+            <tr className={styles.tr}>
               <td colSpan={6}>No transactions yet</td>
             </tr>
           ) : (
             transactions.map((t) => (
-              <tr key={t._id}>
-                <td>{new Date(t.date).toISOString().split("T")[0]}</td>
-                <td>{t.type}</td>
-                <td>{t.category}</td>
-                <td>${t.amount}</td>
-                <td>{t.note}</td>
-                <td>{t.isRecurring ? "Yes" : "No"}</td>
+              <tr key={t._id} className={styles.tr}>
+                <td className={styles.td}>{new Date(t.date).toISOString().split("T")[0]}</td>
+                <td className={styles.td}>{t.type}</td>
+                <td className={styles.td}>{t.category}</td>
+                <td className={styles.td}>${t.amount}</td>
+                <td className={styles.td}>{t.note}</td>
+                <td className={styles.td}>{t.isRecurring ? "Yes" : "No"}</td>
                 {t.isRecurring ? (
                   <>
-                    <td>{t.recurrenceInterval}</td>
-                    <td>{new Date(t.nextRecurrence).toISOString().split("T")[0]}</td>
+                    <td className={styles.td}>{t.recurrenceInterval}</td>
+                    <td className={styles.td}>{new Date(t.nextRecurrence).toISOString().split("T")[0]}</td>
                   </>
                 ) : (
                   <>
-                    <td></td>
-                    <td></td>
+                    <td className={styles.td}></td>
+                    <td className={styles.td}></td>
                   </>
                 )}
               </tr>

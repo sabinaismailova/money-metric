@@ -1,6 +1,6 @@
 "use client";
 import { useState } from "react";
-import "./styles.css";
+import styles from "./addtransactions.module.css";
 import { useRouter } from "next/navigation";
 
 export default function AddTransaction() {
@@ -63,12 +63,12 @@ export default function AddTransaction() {
   };
 
   return (
-    <div>
-      <h1>Transaction Form</h1>
-      <form onSubmit={handleSubmit}>
+    <div className={styles.screen}>
+      <h1 className={styles.title}>Transaction Form</h1>
+      <form className={styles.form} onSubmit={handleSubmit}>
         <label>
           Transaction type
-          <select name="type" value={formData.type} onChange={handleChange}>
+          <select className={styles.select} name="type" value={formData.type} onChange={handleChange}>
             <option value="select"></option>
             <option value="Income">Income</option>
             <option value="Expense">Expense</option>
@@ -77,6 +77,7 @@ export default function AddTransaction() {
         <label>
           Category
           <input
+            className={styles.input}
             type="text"
             name="category"
             value={formData.category}
@@ -86,6 +87,7 @@ export default function AddTransaction() {
         <label>
           Amount
           <input
+            className={styles.input}
             type="number"
             name="amount"
             value={formData.amount}
@@ -95,6 +97,7 @@ export default function AddTransaction() {
         <label>
           Date
           <input
+            className={styles.input}
             type="date"
             name="date"
             value={formData.date}
@@ -115,6 +118,7 @@ export default function AddTransaction() {
         <label>
           Recurring?
           <input
+            className={styles.input}
             type="checkbox"
             name="isRecurring"
             checked={formData.isRecurring}
@@ -126,6 +130,7 @@ export default function AddTransaction() {
             <label>
               How often
               <select
+                className={styles.select}
                 name="recurrenceInterval"
                 value={formData.recurrenceInterval}
                 onChange={handleChange}
@@ -141,6 +146,7 @@ export default function AddTransaction() {
             <label>
               Next recurrence
               <input
+                className={styles.input}
                 type="date"
                 name="nextRecurrence"
                 value={formData.nextRecurrence}
@@ -149,7 +155,7 @@ export default function AddTransaction() {
             </label>
           </>
         )}
-        <button type="submit" onClick={handleSubmit}>
+        <button className={styles.button} type="submit" onClick={handleSubmit}>
           Add Transaction
         </button>
         {error && <p style={{ color: "red" }}>{error.message}</p>}

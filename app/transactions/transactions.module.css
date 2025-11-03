@@ -1,8 +1,8 @@
-table {
+.table {
     width: 100%;
 }
 
-tr {
+.tr {
     display: flex;
     justify-content: space-evenly;
     align-items: start;
@@ -12,7 +12,7 @@ tr {
     padding: 4px;
 }
 
-th, td {
+.th, .td {
     display: flex;
     flex-direction: column;
     justify-content: start;
@@ -23,7 +23,7 @@ th, td {
     padding: 4px;
 }
 
-thead {
+.thead {
     display: flex;
     justify-content: space-evenly;
     align-items: start;
@@ -41,11 +41,11 @@ thead {
     height: fit-content;
 }
 
-h1 {
+.title {
     font-size: xx-large;
 }
 
-.add-t-btn {
+.addtbtn {
     background-color: white;
     padding: 4px;
     padding-left: 8px;

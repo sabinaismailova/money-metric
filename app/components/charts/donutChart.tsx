@@ -1,5 +1,4 @@
 "use client";
-
 import { Doughnut } from "react-chartjs-2";
 import {
   Chart as ChartJS,
@@ -7,6 +6,7 @@ import {
   Tooltip,
   Legend,
 } from "chart.js";
+import "./charts.module.css"
 
 ChartJS.register(ArcElement, Tooltip, Legend);
 
@@ -30,5 +30,5 @@ export default function DonutChart({ labels = [], data = [], colors = [] }) {
     ],
   };
 
-  return <Doughnut width={200} height={200} data={chartData} />;
+  return <Doughnut className="donutChart" data={chartData} />;
 }
