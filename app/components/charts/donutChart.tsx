@@ -6,7 +6,7 @@ import {
   Tooltip,
   Legend,
 } from "chart.js";
-import "./charts.module.css"
+import styles from "./charts.module.css"
 
 ChartJS.register(ArcElement, Tooltip, Legend);
 
@@ -30,5 +30,22 @@ export default function DonutChart({ labels = [], data = [], colors = [] }) {
     ],
   };
 
-  return <Doughnut className="donutChart" data={chartData} />;
+  const options = {
+    responsive: true,
+    plugins: {
+      tooltip: {
+        callbacks: {
+          title: function (tooltipItems) {
+            const date = tooltipItems[0].parsed.x;
+            const day = new Date(date).toDateString();
+            return `${day}`;
+          },
+        },
+      },
+      legend: { position: "top" },
+      title: { display: true, text: "Expenses Distribution", color: "#FFFFFF"},
+    },
+  }
+
+  return <Doughnut className={styles.donutChart} data={chartData} options={options}/>;
 }

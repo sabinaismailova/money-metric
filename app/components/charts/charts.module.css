@@ -1,19 +1,9 @@
-.charts {
-    display: flex;
-    justify-content: end;
-    align-items: start;
-    width: 90%;
-    height: 100%;
-}
-
-.chart {
-    display: flex;
-    flex-direction: column;
-    justify-content: end;
-    align-items: center;
-}
-
 .donutChart {
-    width: 1em;
-    height: 1em;
+    width: 14em;
+    height: 14em;
+}
+
+.lineChart {
+    width: 30em;
+    height: 30em;
 }
