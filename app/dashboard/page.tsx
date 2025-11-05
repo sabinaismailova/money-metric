@@ -4,6 +4,7 @@ import { useRouter, useSearchParams } from "next/navigation";
 import DonutChart from "../components/charts/donutChart";
 import LineChart from "../components/charts/lineChart";
 import Sidenavbar from "../components/navbars/sidenavbar";
+import BarGraphY from "../components/charts/barGraphY";
 import styles from "./dashboard.module.css";
 
 export default function DashboardPage() {
@@ -131,9 +132,12 @@ export default function DashboardPage() {
             <div className={styles.chart}>
               <LineChart month={selectedMonth} income={income} expenses={expenses}></LineChart>
             </div>
+            <div className={styles.chart}>
+              <BarGraphY income={income}></BarGraphY>
+            </div>
           </div>
         ) : (
-          <p>No data for {selectedMonth}/{selectedYear}</p>
+          <p>No data for {selectedMonth+1}/{selectedYear}</p>
         )}
       </div>
     </div>
