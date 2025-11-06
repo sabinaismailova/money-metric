@@ -45,7 +45,9 @@ export default function LineChart({ month = 0, income = [], expenses = [] }) {
   const expenseMap = new Map();
 
   expenses.forEach((tx) => {
-    const dayKey = new Date(tx.date).setHours(0, 0, 0, 0);
+    const dateOnly = tx.date.split("T")[0]; 
+    const localDate = new Date(`${dateOnly}T00:00:00`);
+    const dayKey = localDate.getTime();
     const current = expenseMap.get(dayKey) || 0;
     expenseMap.set(dayKey, current + tx.amount);
   });
@@ -60,7 +62,9 @@ export default function LineChart({ month = 0, income = [], expenses = [] }) {
   const incomeMap = new Map();
 
   income.forEach((tx) => {
-    const dayKey = new Date(tx.date).setHours(0, 0, 0, 0);
+    const dateOnly = tx.date.split("T")[0]; 
+    const localDate = new Date(`${dateOnly}T00:00:00`);
+    const dayKey = localDate.getTime();
     const current = incomeMap.get(dayKey) || 0;
     incomeMap.set(dayKey, current + tx.amount);
   });

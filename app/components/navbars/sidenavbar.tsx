@@ -28,8 +28,6 @@ const Sidenavbar: React.FC<SidenavbarProps> = ({
     "Dec",
   ];
 
-  console.log("month: ", selectedMonth)
-
   return (
     <div className={styles.sidenavbar}>
       {months.map((month, index) => (

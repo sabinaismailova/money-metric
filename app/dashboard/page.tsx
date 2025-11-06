@@ -53,7 +53,6 @@ export default function DashboardPage() {
           throw new Error(`HTTP error! status: ${response.status}`);
         }
         const result = await response.json();
-        console.log("user: ", result);
         setUser(result);
       } catch (err) {
         setError(err);
@@ -89,7 +88,10 @@ export default function DashboardPage() {
   const expensesTotals = new Map();
 
   expenses.forEach((tx) => {
-    expensesTotals.set(tx.category, (expensesTotals.get(tx.category) || 0) + tx.amount);
+    expensesTotals.set(
+      tx.category,
+      (expensesTotals.get(tx.category) || 0) + tx.amount
+    );
   });
 
   const categoryTotals = expensesTotals;
@@ -126,18 +128,26 @@ export default function DashboardPage() {
         </div>
         {transactions.length > 0 ? (
           <div className={styles.charts}>
+            {data.length>1 && (
+              <div className={styles.chart}>
+                <DonutChart labels={labels} data={data} />
+              </div>
+            )}
             <div className={styles.chart}>
-              <DonutChart labels={labels} data={data} />
-            </div>
-            <div className={styles.chart}>
-              <LineChart month={selectedMonth} income={income} expenses={expenses}></LineChart>
+              <LineChart
+                month={selectedMonth}
+                income={income}
+                expenses={expenses}
+              ></LineChart>
             </div>
             <div className={styles.chart}>
               <BarGraphY income={income}></BarGraphY>
             </div>
           </div>
         ) : (
-          <p>No data for {selectedMonth+1}/{selectedYear}</p>
+          <p>
+            No data for {selectedMonth + 1}/{selectedYear}
+          </p>
         )}
       </div>
     </div>
