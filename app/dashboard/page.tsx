@@ -1,10 +1,8 @@
 "use client";
 import { useEffect, useState, useMemo } from "react";
 import { useRouter, useSearchParams } from "next/navigation";
-import DonutChart from "../components/charts/donutChart";
-import LineChart from "../components/charts/lineChart";
 import Sidenavbar from "../components/navbars/sidenavbar";
-import BarGraphY from "../components/charts/barGraphY";
+import Charts from "../components/charts/charts";
 import styles from "./dashboard.module.css";
 
 export default function DashboardPage() {
@@ -17,9 +15,6 @@ export default function DashboardPage() {
   const searchParams = useSearchParams();
 
   const today = new Date();
-
-  // const [selectedMonth, setSelectedMonth] = useState(today.getMonth());
-  // const [selectedYear, setSelectedYear] = useState(today.getFullYear());
 
   const [selectedMonth, setSelectedMonth] = useState(
     Number(searchParams.get("month")) || today.getMonth()
@@ -84,23 +79,6 @@ export default function DashboardPage() {
     fetchTransactions();
   }, [selectedMonth, selectedYear]);
 
-  const expenses = transactions.filter((tx) => tx.type === "Expense");
-  const expensesTotals = new Map();
-
-  expenses.forEach((tx) => {
-    expensesTotals.set(
-      tx.category,
-      (expensesTotals.get(tx.category) || 0) + tx.amount
-    );
-  });
-
-  const categoryTotals = expensesTotals;
-
-  const labels = Array.from(categoryTotals.keys());
-  const data = Array.from(categoryTotals.values());
-
-  const income = transactions.filter((tx) => tx.type === "Income");
-
   if (!user) return <p>Loading dashboard...</p>;
 
   if (error) return error;
@@ -126,29 +104,7 @@ export default function DashboardPage() {
           <button onClick={handleTransactionsRedirect}>Transactions</button>
           <button onClick={handleLogout}>Logout</button>
         </div>
-        {transactions.length > 0 ? (
-          <div className={styles.charts}>
-            {data.length>1 && (
-              <div className={styles.chart}>
-                <DonutChart labels={labels} data={data} />
-              </div>
-            )}
-            <div className={styles.chart}>
-              <LineChart
-                month={selectedMonth}
-                income={income}
-                expenses={expenses}
-              ></LineChart>
-            </div>
-            <div className={styles.chart}>
-              <BarGraphY income={income}></BarGraphY>
-            </div>
-          </div>
-        ) : (
-          <p>
-            No data for {selectedMonth + 1}/{selectedYear}
-          </p>
-        )}
+        <Charts transactions={transactions} selectedMonth={selectedMonth} selectedYear={selectedYear}></Charts>
       </div>
     </div>
   );

@@ -84,5 +84,13 @@ export default function BarGraphY({ income = [] }) {
     },
   };
 
-  return <Bar className={styles.barGraphY} data={data} options={options} />;
+  return (
+    <>
+      {income.length > 0 ? (
+        <Bar className={styles.barGraphY} data={data} options={options} />
+      ) : (
+        <></>
+      )}
+    </>
+  );
 }
