@@ -1,42 +1,16 @@
 "use client";
-import { useEffect, useState } from "react";
 import styles from "./transactions.module.css";
 import { useRouter } from "next/navigation";
 
-export default function TransactionsPage() {
-  const [transactions, setTransactions] = useState([]);
-  const [error, setError] = useState(null);
-
+const Transactions = ({ transactions=[]}) => {
   const router = useRouter();
 
-  useEffect(() => {
-    async function fetchTransactions() {
-      try {
-        const response = await fetch(
-          `${process.env.NEXT_PUBLIC_BACKEND_URL}/api/transactions`,
-          {
-            credentials: "include",
-          }
-        );
-        if (!response.ok) {
-          throw new Error(`HTTP error! status: ${response.status}`);
-        }
-        const result = await response.json();
-        setTransactions(result);
-      } catch (err) {
-        setError(err);
-      }
-    }
-
-    fetchTransactions();
-  }, []);
-
   const handleAddTransaction = () => {
-    router.push("/transactions/add");
+    router.push("/addTransaction");
   };
 
   return (
-    <div>
+    <div className={styles.tableContainer}>
       <div className={styles.header}>
         <h1 className={styles.title}>Transactions</h1>
         <button className={styles.addtbtn} onClick={handleAddTransaction}>
@@ -54,12 +28,12 @@ export default function TransactionsPage() {
             <th className={styles.th}>Recurring</th>
             <th className={styles.th}>Recurrence Interval</th>
             <th className={styles.th}>Next recurrance</th>
-          </tr>
+            </tr>
         </thead>
         <tbody className={styles.tbody}>
           {transactions.length === 0 ? (
             <tr className={styles.tr}>
-              <td colSpan={6}>No transactions yet</td>
+              <td colSpan={6}>No transactions for this month.</td>
             </tr>
           ) : (
             transactions.map((t) => (
@@ -89,3 +63,5 @@ export default function TransactionsPage() {
     </div>
   );
 }
+
+export default Transactions

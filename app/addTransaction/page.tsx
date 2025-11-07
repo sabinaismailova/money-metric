@@ -50,7 +50,7 @@ export default function AddTransaction() {
 
       const result = await response.json();
       setSuccess("Transaction added successfully!");
-      router.push("/transactions");
+      router.push("/dashboard");
     } catch (err) {
       setError(err);
       console.error(err);

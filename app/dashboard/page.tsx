@@ -3,6 +3,7 @@ import { useEffect, useState, useMemo } from "react";
 import { useRouter, useSearchParams } from "next/navigation";
 import Sidenavbar from "../components/navbars/sidenavbar";
 import Charts from "../components/charts/charts";
+import Transactions from "../components/transactions/transactions";
 import styles from "./dashboard.module.css";
 
 export default function DashboardPage() {
@@ -10,6 +11,7 @@ export default function DashboardPage() {
   const [error, setError] = useState(null);
   const [transactions, setTransactions] = useState([]);
   const [transactionsError, setTransactionsError] = useState(null);
+  const [activeTab, setActiveTab] = useState("charts");
 
   const router = useRouter();
   const searchParams = useSearchParams();
@@ -87,8 +89,8 @@ export default function DashboardPage() {
     window.location.href = `${process.env.NEXT_PUBLIC_BACKEND_URL}/oauth/logout`;
   };
 
-  const handleTransactionsRedirect = () => {
-    router.push("/transactions");
+  const handleActiveTabChange = (e) => {
+    setActiveTab(e.target.id);
   };
 
   return (
@@ -101,10 +103,35 @@ export default function DashboardPage() {
       <div className={styles.content}>
         <div className={styles.topnavbar}>
           <h1>Welcome {user.displayName}!</h1>
-          <button onClick={handleTransactionsRedirect}>Transactions</button>
+          <button
+            id="charts"
+            onClick={(e) => handleActiveTabChange(e)}
+            className={`${styles.btn} ${
+              activeTab === "charts" ? styles.activeBtn : ""
+            }`}
+          >
+            Charts
+          </button>
+          <button
+            id="transactions"
+            onClick={(e) => handleActiveTabChange(e)}
+            className={`${styles.btn} ${
+              activeTab === "transactions" ? styles.activeBtn : ""
+            }`}
+          >
+            Transactions
+          </button>
           <button onClick={handleLogout}>Logout</button>
         </div>
-        <Charts transactions={transactions} selectedMonth={selectedMonth} selectedYear={selectedYear}></Charts>
+        {activeTab==="charts"? (
+          <Charts
+          transactions={transactions}
+          selectedMonth={selectedMonth}
+          selectedYear={selectedYear}
+        ></Charts>
+        ):(
+          <Transactions transactions={transactions}></Transactions>
+        )}
       </div>
     </div>
   );

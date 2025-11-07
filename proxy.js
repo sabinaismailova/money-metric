@@ -15,10 +15,7 @@ export async function proxy(req) {
   if (!isLoggedIn && pathname === "/dashboard") {
     return NextResponse.redirect(new URL("/", req.url));
   }
-  if (!isLoggedIn && pathname === "/transactions") {
-    return NextResponse.redirect(new URL("/", req.url));
-  }
-  if (!isLoggedIn && pathname === "/transactions/add") {
+  if (!isLoggedIn && pathname === "/addTransaction") {
     return NextResponse.redirect(new URL("/", req.url));
   }
   if (isLoggedIn && pathname === "/") {
@@ -28,5 +25,5 @@ export async function proxy(req) {
 }
 
 export const config = {
-  matcher: ["/", "/dashboard", "/transactions", "/transactions/add"],
+  matcher: ["/", "/dashboard", "/addTransaction"],
 };
