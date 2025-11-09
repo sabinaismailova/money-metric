@@ -3,6 +3,7 @@ import DonutChart from "./donutChart";
 import LineChart from "./lineChart";
 import BarGraphY from "./barGraphY";
 import MiniTotalDisplayCard from "./miniTotalDisplayCard";
+import AvailableBalanceCard from "./availableBalanceCard";
 import styles from "./charts.module.css";
 
 const Charts = ({ transactions = [], selectedMonth = 0, selectedYear = 0 }) => {
@@ -15,27 +16,28 @@ const Charts = ({ transactions = [], selectedMonth = 0, selectedYear = 0 }) => {
       {transactions.length > 0 ? (
         <div className={styles.charts}>
           <div className={styles.chart}>
+            <AvailableBalanceCard expenses={expenses} income={income}/>
+          </div>
+          <div className={styles.chart}>
             <DonutChart expenses={expenses} />
           </div>
-          <div className={styles.miniCardsContainer}>
-            {expenses.length>0 && (
-              <div className={styles.chart}>
+          <div className={styles.chart}>
+            <div className={styles.miniCardsContainer}>
+              {expenses.length > 0 && (
                 <MiniTotalDisplayCard
                   title="Expenses"
                   transactions={expenses}
                   lineColor="rgb(255, 99, 132)"
                 />
-              </div>
-            )}
-            {income.length>0 && (
-              <div className={styles.chart}>
+              )}
+              {income.length > 0 && (
                 <MiniTotalDisplayCard
                   title="Income"
                   transactions={income}
                   lineColor="rgb(75, 192, 192)"
                 />
-              </div>
-            )}
+              )}
+            </div>
           </div>
           <div className={styles.chart}>
             <LineChart
