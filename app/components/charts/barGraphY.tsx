@@ -74,14 +74,22 @@ export default function BarGraphY({ income = [] }) {
           label: (ctx) => `${ctx.parsed.x}%`,
         },
       },
-      scales: {
+    },
+    scales: {
         x: {
           beginAtZero: true,
           max: 100,
           title: { display: true, text: "% of Total Income" },
+          grid: {
+            color: "#1d273b",
+          },
+        },
+        y: {
+          grid: {
+            color: "#1d273b",
+          },
         },
       },
-    },
   };
 
   return (

@@ -122,10 +122,16 @@ export default function LineChart({ month = 0, income = [], expenses = [] }) {
           },
         },
         title: { display: true, text: monthName },
+        grid: {
+            color: "#1d273b"
+        },
       },
       y: {
         beginAtZero: true,
         title: { display: true, text: "Amount ($)" },
+        grid: {
+            color: "#1d273b"
+        },
       },
     },
   };

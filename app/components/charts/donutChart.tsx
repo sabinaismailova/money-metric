@@ -31,6 +31,7 @@ const DonutChart = ({ expenses = [] }) => {
         data,
         backgroundColor: backgroundColors,
         hoverOffset: 10,
+        borderColor: "#F0F0F0",
       },
     ],
   };

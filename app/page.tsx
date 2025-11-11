@@ -1,18 +1,34 @@
 "use client";
+import styles from "./login.module.css"
+import GoogleLogo from "./GoogleLogo.png"
+import Image from "next/image";
 
 export default function Home() {
   const handleGoogleLogin = () => {
     window.location.href = `${process.env.NEXT_PUBLIC_BACKEND_URL}/oauth/google`;
   };
 
+  // flex min-h-screen items-center justify-center bg-zinc-50 font-sans dark:bg-black
+
   return (
-    <div className="flex min-h-screen items-center justify-center bg-zinc-50 font-sans dark:bg-black">
-      <button
-        className="flex p-2 rounded-lg bg-zinc-50 text-black"
-        onClick={handleGoogleLogin}
-      >
-        Google Login
-      </button>
+    <div className="min-w-screen h-screen bg-gray-900 flex items-center justify-center">
+      <div className={styles.leftContent}>
+        Welcome to MoneyMetrics
+      </div>
+      <div className={styles.loginSection}>
+        <div className={styles.loginContainer}>
+          <span className={styles.span}>
+            Log in 
+          </span>
+          <button
+            className={styles.loginButton}
+            onClick={handleGoogleLogin}
+          >
+            <Image alt="Google Login Button Logo" src={GoogleLogo} width={24} height={24}/>
+            Use Google Account
+          </button>
+        </div>
+      </div>
     </div>
   );
 }
