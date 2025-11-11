@@ -16,7 +16,7 @@ const Charts = ({ transactions = [], selectedMonth = 0, selectedYear = 0 }) => {
       {transactions.length > 0 ? (
         <div className={styles.charts}>
           <div className={styles.chart}>
-            <AvailableBalanceCard expenses={expenses} income={income}/>
+            <AvailableBalanceCard selectedMonth={selectedMonth} selectedYear={selectedYear}/>
           </div>
           <div className={styles.chart}>
             <DonutChart expenses={expenses} />

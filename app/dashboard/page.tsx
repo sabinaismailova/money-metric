@@ -123,13 +123,13 @@ export default function DashboardPage() {
           </button>
           <button onClick={handleLogout}>Logout</button>
         </div>
-        {activeTab==="charts"? (
+        {activeTab === "charts" ? (
           <Charts
-          transactions={transactions}
-          selectedMonth={selectedMonth}
-          selectedYear={selectedYear}
-        ></Charts>
-        ):(
+            transactions={transactions}
+            selectedMonth={selectedMonth}
+            selectedYear={selectedYear}
+          ></Charts>
+        ) : (
           <Transactions transactions={transactions}></Transactions>
         )}
       </div>
