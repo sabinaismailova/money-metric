@@ -1,22 +1,7 @@
-.donutChart {
-    width: 14em;
-    height: 14em;
-}
-
-.lineChart {
-    width: 30em;
-    height: 30em;
-}
-
-.barGraphY {
-    width: 24em;
-    height: 12em;
-}
-
 .charts {
     display: flex;
     flex-wrap: wrap;
-    justify-content: space-evenly;
+    justify-content: start;
     align-items: start;
     width: 100%;
     height: 100%;
@@ -26,20 +11,37 @@
 .chart {
     display: flex;
     flex-direction: column;
-    justify-content: end;
-    align-items: center;
+    justify-content: start;
+    align-items: start;
+    background-color: #1d273b;
+    border-radius: 12px;
+    padding: 0.5em;
     margin: 0.5em;
+    width: 30em;
+    height: 16em;
+}
+
+.cardChart {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-evenly;
+    align-items: center;
+    border-radius: 12px;
+    width: auto;
+    height: 16em;
 }
 
 .card {
     display: flex;
     flex-direction: column;
     justify-content: space-between;
-    width: 100%;
-    height: auto;
+    width: auto;
+    height: 100%;
+    min-width: 16em;
     background-color: #1d273b;
     border-radius: 12px;
     padding: 0.75em;
+    margin: 0.5em;
 }
 
 
@@ -70,6 +72,16 @@
     justify-content: space-evenly;
     align-items: start;
     width: 100%;
-    height: 14em;
-    overflow-y: hide;
+    height: 100%;
+}
+
+@media screen and ((max-width: 500px) or (min-height: 1000px)){
+    .chart {
+        max-width: 100%;
+        height: fit-content;
+    }
+    
+    .cardChart {
+        height: fit-content;
+    }
 }

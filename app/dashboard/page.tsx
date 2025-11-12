@@ -2,6 +2,7 @@
 import { useEffect, useState, useMemo } from "react";
 import { useRouter, useSearchParams } from "next/navigation";
 import Sidenavbar from "../components/navbars/sidenavbar";
+import Topnavbar from "../components/navbars/topnavbar";
 import Charts from "../components/charts/charts";
 import Transactions from "../components/transactions/transactions";
 import styles from "./dashboard.module.css";
@@ -101,28 +102,12 @@ export default function DashboardPage() {
         setSelectedMonth={(m) => updateSelection(m, selectedYear)}
       ></Sidenavbar>
       <div className={styles.content}>
-        <div className={styles.topnavbar}>
-          <h1>Welcome {user.displayName}!</h1>
-          <button
-            id="charts"
-            onClick={(e) => handleActiveTabChange(e)}
-            className={`${styles.btn} ${
-              activeTab === "charts" ? styles.activeBtn : ""
-            }`}
-          >
-            Charts
-          </button>
-          <button
-            id="transactions"
-            onClick={(e) => handleActiveTabChange(e)}
-            className={`${styles.btn} ${
-              activeTab === "transactions" ? styles.activeBtn : ""
-            }`}
-          >
-            Transactions
-          </button>
-          <button onClick={handleLogout}>Logout</button>
-        </div>
+        <Topnavbar
+          userName={user.displayName}
+          handleLogout={handleLogout}
+          activeTab={activeTab}
+          handleActiveTabChange={handleActiveTabChange}
+        />
         {activeTab === "charts" ? (
           <Charts
             transactions={transactions}

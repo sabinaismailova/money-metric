@@ -40,9 +40,9 @@ const AvailableBalanceCard = ({ selectedMonth = 0, selectedYear = 0 }) => {
   const availableBalance = incomeTotal - expensesTotal;
 
   return (
-    <div className={styles.card} style={{ backgroundColor: `rgb(0,128,128)` }}>
-      <h3>Available Balance</h3>
-      <span className={styles.amount} style={{ paddingTop: 8, fontSize: 20 }}>
+    <div className={styles.card} style={{ backgroundColor: `#1d273b` }}>
+      <h3 style={{ fontSize: 16, fontWeight: 'bold'}}>Available Balance</h3>
+      <span className={styles.amount} style={{ paddingTop: 8, fontSize: 32, color: 'rgb(75, 192, 192)'}}>
         ${availableBalance.toFixed(2)}
       </span>
     </div>

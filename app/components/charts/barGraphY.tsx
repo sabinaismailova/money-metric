@@ -81,12 +81,12 @@ export default function BarGraphY({ income = [] }) {
           max: 100,
           title: { display: true, text: "% of Total Income" },
           grid: {
-            color: "#1d273b",
+            color: "#111827",
           },
         },
         y: {
           grid: {
-            color: "#1d273b",
+            color: "#111827",
           },
         },
       },

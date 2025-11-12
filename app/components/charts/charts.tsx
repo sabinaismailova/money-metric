@@ -12,16 +12,22 @@ const Charts = ({ transactions = [], selectedMonth = 0, selectedYear = 0 }) => {
   const income = transactions.filter((tx) => tx.type === "Income");
 
   return (
-    <div>
+    <div style={{display: 'flex', flexDirection: 'column', justifyContent: 'start', alignItems: 'start', width: '100%', height: 'auto', overflowY: 'scroll'}}>
       {transactions.length > 0 ? (
         <div className={styles.charts}>
-          <div className={styles.chart}>
-            <AvailableBalanceCard selectedMonth={selectedMonth} selectedYear={selectedYear}/>
+          <div className={styles.cardChart}>
+            <div
+              className={styles.card}
+              style={{ backgroundColor: `rgb(0,128,128)` }}
+            >
+              <span>Welcome </span>
+            </div>
+            <AvailableBalanceCard
+              selectedMonth={selectedMonth}
+              selectedYear={selectedYear}
+            />
           </div>
-          <div className={styles.chart}>
-            <DonutChart expenses={expenses} />
-          </div>
-          <div className={styles.chart}>
+          <div className={styles.cardChart}>
             <div className={styles.miniCardsContainer}>
               {expenses.length > 0 && (
                 <MiniTotalDisplayCard
@@ -38,6 +44,9 @@ const Charts = ({ transactions = [], selectedMonth = 0, selectedYear = 0 }) => {
                 />
               )}
             </div>
+          </div>
+          <div className={styles.chart}>
+            <DonutChart expenses={expenses} />
           </div>
           <div className={styles.chart}>
             <LineChart

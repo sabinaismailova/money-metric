@@ -38,6 +38,7 @@ const DonutChart = ({ expenses = [] }) => {
 
   const options = {
     responsive: true,
+    maintainAspectRatio: false,
     plugins: {
       tooltip: {
         callbacks: {
