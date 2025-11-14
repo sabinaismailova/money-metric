@@ -17,8 +17,21 @@
     border-radius: 12px;
     padding: 0.5em;
     margin: 0.5em;
-    width: 30em;
-    height: 16em;
+    width: 28em;
+    height: 13em;
+}
+
+.lineChart {
+    display: flex;
+    flex-direction: column;
+    justify-content: start;
+    align-items: start;
+    background-color: #1d273b;
+    border-radius: 12px;
+    padding: 0.25em;
+    margin: 0.5em;
+    width: 26em;
+    height: 13em;
 }
 
 .cardChart {
@@ -28,7 +41,7 @@
     align-items: center;
     border-radius: 12px;
     width: auto;
-    height: 16em;
+    height: 13em;
 }
 
 .card {
@@ -37,7 +50,8 @@
     justify-content: space-between;
     width: auto;
     height: 100%;
-    min-width: 16em;
+    min-width: 14em;
+    max-height: 14.5em;
     background-color: #1d273b;
     border-radius: 12px;
     padding: 0.75em;

@@ -5,6 +5,7 @@ import BarGraphY from "./barGraphY";
 import MiniTotalDisplayCard from "./miniTotalDisplayCard";
 import AvailableBalanceCard from "./availableBalanceCard";
 import styles from "./charts.module.css";
+import AvailableBalanceChart from "./availableBalanceChart";
 
 const Charts = ({ transactions = [], selectedMonth = 0, selectedYear = 0 }) => {
   const expenses = transactions.filter((tx) => tx.type === "Expense");
@@ -12,31 +13,29 @@ const Charts = ({ transactions = [], selectedMonth = 0, selectedYear = 0 }) => {
   const income = transactions.filter((tx) => tx.type === "Income");
 
   return (
-    <div style={{display: 'flex', flexDirection: 'column', justifyContent: 'start', alignItems: 'start', width: '100%', height: 'auto', overflowY: 'scroll'}}>
+    <div
+      style={{
+        display: "flex",
+        flexDirection: "column",
+        justifyContent: "start",
+        alignItems: "start",
+        width: "100%",
+        height: "auto",
+        overflowY: "scroll",
+      }}
+    >
       {transactions.length > 0 ? (
         <div className={styles.charts}>
           <div className={styles.cardChart}>
-            <div
-              className={styles.card}
-              style={{ backgroundColor: `rgb(0,128,128)` }}
-            >
-              <span>Welcome </span>
-            </div>
-            <AvailableBalanceCard
-              selectedMonth={selectedMonth}
-              selectedYear={selectedYear}
-            />
-          </div>
-          <div className={styles.cardChart}>
             <div className={styles.miniCardsContainer}>
-              {expenses.length > 0 && (
+              {expenses.length > 1 && (
                 <MiniTotalDisplayCard
                   title="Expenses"
                   transactions={expenses}
                   lineColor="rgb(255, 99, 132)"
                 />
               )}
-              {income.length > 0 && (
+              {income.length > 1 && (
                 <MiniTotalDisplayCard
                   title="Income"
                   transactions={income}
@@ -45,18 +44,34 @@ const Charts = ({ transactions = [], selectedMonth = 0, selectedYear = 0 }) => {
               )}
             </div>
           </div>
-          <div className={styles.chart}>
-            <DonutChart expenses={expenses} />
-          </div>
-          <div className={styles.chart}>
+          {expenses.length > 0 && (
+            <div className={styles.chart}>
+              <DonutChart expenses={expenses} />
+            </div>
+          )}
+          <div className={styles.lineChart}>
             <LineChart
               month={selectedMonth}
               income={income}
               expenses={expenses}
             ></LineChart>
           </div>
+          <div className={styles.lineChart}>
+            <AvailableBalanceChart
+              income={income}
+              expenses={expenses}
+              selectedMonth={selectedMonth}
+              selectedYear={selectedYear}
+            ></AvailableBalanceChart>
+          </div>
           <div className={styles.chart}>
             <BarGraphY income={income}></BarGraphY>
+          </div>
+          <div className={styles.cardChart}>
+            <AvailableBalanceCard
+              selectedMonth={selectedMonth}
+              selectedYear={selectedYear}
+            />
           </div>
         </div>
       ) : (

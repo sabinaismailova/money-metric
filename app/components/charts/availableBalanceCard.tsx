@@ -42,7 +42,7 @@ const AvailableBalanceCard = ({ selectedMonth = 0, selectedYear = 0 }) => {
   return (
     <div className={styles.card} style={{ backgroundColor: `#1d273b` }}>
       <h3 style={{ fontSize: 16, fontWeight: 'bold'}}>Available Balance</h3>
-      <span className={styles.amount} style={{ paddingTop: 8, fontSize: 32, color: 'rgb(75, 192, 192)'}}>
+      <span className={styles.amount} style={{ paddingTop: 8, fontSize: 40, color: 'rgb(75, 192, 192)'}}>
         ${availableBalance.toFixed(2)}
       </span>
     </div>
