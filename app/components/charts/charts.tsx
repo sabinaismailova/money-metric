@@ -6,6 +6,7 @@ import MiniTotalDisplayCard from "./miniTotalDisplayCard";
 import AvailableBalanceCard from "./availableBalanceCard";
 import styles from "./charts.module.css";
 import AvailableBalanceChart from "./availableBalanceChart";
+import CashflowWaterfallChart from "./cashflowWaterfallChart";
 
 const Charts = ({ transactions = [], selectedMonth = 0, selectedYear = 0 }) => {
   const expenses = transactions.filter((tx) => tx.type === "Expense");
@@ -26,6 +27,12 @@ const Charts = ({ transactions = [], selectedMonth = 0, selectedYear = 0 }) => {
     >
       {transactions.length > 0 ? (
         <div className={styles.charts}>
+          <div className={styles.cardChart}>
+            <AvailableBalanceCard
+              selectedMonth={selectedMonth}
+              selectedYear={selectedYear}
+            />
+          </div>
           <div className={styles.cardChart}>
             <div className={styles.miniCardsContainer}>
               {expenses.length > 1 && (
@@ -49,6 +56,14 @@ const Charts = ({ transactions = [], selectedMonth = 0, selectedYear = 0 }) => {
               <DonutChart expenses={expenses} />
             </div>
           )}
+          <div className={styles.chart}>
+            <CashflowWaterfallChart
+              income={income}
+              expenses={expenses}
+              selectedMonth={selectedMonth}
+              selectedYear={selectedYear}
+            />
+          </div>
           <div className={styles.lineChart}>
             <LineChart
               month={selectedMonth}
@@ -66,12 +81,6 @@ const Charts = ({ transactions = [], selectedMonth = 0, selectedYear = 0 }) => {
           </div>
           <div className={styles.chart}>
             <BarGraphY income={income}></BarGraphY>
-          </div>
-          <div className={styles.cardChart}>
-            <AvailableBalanceCard
-              selectedMonth={selectedMonth}
-              selectedYear={selectedYear}
-            />
           </div>
         </div>
       ) : (
