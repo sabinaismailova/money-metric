@@ -7,6 +7,7 @@ import AvailableBalanceCard from "./availableBalanceCard";
 import styles from "./charts.module.css";
 import AvailableBalanceChart from "./availableBalanceChart";
 import CashflowWaterfallChart from "./cashflowWaterfallChart";
+import InsightsChatbot from "../chatbot/insightsChatbot";
 
 const Charts = ({ transactions = [], selectedMonth = 0, selectedYear = 0 }) => {
   const expenses = transactions.filter((tx) => tx.type === "Expense");
@@ -56,31 +57,36 @@ const Charts = ({ transactions = [], selectedMonth = 0, selectedYear = 0 }) => {
               <DonutChart expenses={expenses} />
             </div>
           )}
-          <div className={styles.chart}>
-            <CashflowWaterfallChart
-              income={income}
-              expenses={expenses}
-              selectedMonth={selectedMonth}
-              selectedYear={selectedYear}
-            />
+          <div className={styles.chartGroup}>
+            <div className={styles.chart}>
+              <CashflowWaterfallChart
+                income={income}
+                expenses={expenses}
+                selectedMonth={selectedMonth}
+                selectedYear={selectedYear}
+              />
+            </div>
+            <div className={styles.lineChart}>
+              <LineChart
+                month={selectedMonth}
+                income={income}
+                expenses={expenses}
+              ></LineChart>
+            </div>
+            <div className={styles.lineChart}>
+              <AvailableBalanceChart
+                income={income}
+                expenses={expenses}
+                selectedMonth={selectedMonth}
+                selectedYear={selectedYear}
+              ></AvailableBalanceChart>
+            </div>
+            <div className={styles.chart}>
+              <BarGraphY income={income}></BarGraphY>
+            </div>
           </div>
-          <div className={styles.lineChart}>
-            <LineChart
-              month={selectedMonth}
-              income={income}
-              expenses={expenses}
-            ></LineChart>
-          </div>
-          <div className={styles.lineChart}>
-            <AvailableBalanceChart
-              income={income}
-              expenses={expenses}
-              selectedMonth={selectedMonth}
-              selectedYear={selectedYear}
-            ></AvailableBalanceChart>
-          </div>
-          <div className={styles.chart}>
-            <BarGraphY income={income}></BarGraphY>
+          <div className={styles.chatbotContainer}>
+            <InsightsChatbot></InsightsChatbot>
           </div>
         </div>
       ) : (
