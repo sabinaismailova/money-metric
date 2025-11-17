@@ -13,7 +13,7 @@ export default function Home() {
   return (
     <div className="min-w-screen h-screen bg-gray-900 flex items-center justify-center">
       <div className={styles.leftContent}>
-        Welcome to MoneyMetrics
+        <h1 className={styles.h1}>Money Metrics</h1>
       </div>
       <div className={styles.loginSection}>
         <div className={styles.loginContainer}>
