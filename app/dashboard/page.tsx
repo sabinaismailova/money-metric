@@ -1,5 +1,5 @@
 "use client";
-import { useEffect, useState, useMemo } from "react";
+import { useEffect, useState } from "react";
 import { useRouter, useSearchParams } from "next/navigation";
 import Sidenavbar from "../components/navbars/sidenavbar";
 import Topnavbar from "../components/navbars/topnavbar";
