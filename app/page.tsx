@@ -8,8 +8,6 @@ export default function Home() {
     window.location.href = `${process.env.NEXT_PUBLIC_BACKEND_URL}/oauth/google`;
   };
 
-  // flex min-h-screen items-center justify-center bg-zinc-50 font-sans dark:bg-black
-
   return (
     <div className="min-w-screen h-screen bg-gray-900 flex items-center justify-center">
       <div className={styles.leftContent}>

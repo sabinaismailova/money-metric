@@ -56,13 +56,11 @@ export default function CashflowWaterfallChart({
       startTotal += change;
     });
 
-  // 1️⃣ Compute totals
   const incomeTotal = income.reduce((a, b) => a + b.amount, 0);
   const expenseTotal = expenses.reduce((a, b) => a + b.amount, 0);
 
   const endingBalance = startTotal + incomeTotal - expenseTotal;
 
-  // 2️⃣ Waterfall Data
   const labels = ["Start", "Income", "Expenses", "End"];
 
   const invisibleBase = [

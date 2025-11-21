@@ -1,4 +1,5 @@
 "use client";
+import { useEffect, useState } from "react";
 import DonutChart from "./donutChart";
 import LineChart from "./lineChart";
 import BarGraphY from "./barGraphY";
@@ -10,6 +11,31 @@ import CashflowWaterfallChart from "./cashflowWaterfallChart";
 import InsightsChatbot from "../chatbot/insightsChatbot";
 
 const Charts = ({ transactions = [], selectedMonth = 0, selectedYear = 0 }) => {
+  const [userSummary, setUserSummary] = useState({});
+
+  useEffect(() => {
+    async function fetchUserSummary() {
+      try {
+        const response = await fetch(
+          `${process.env.NEXT_PUBLIC_BACKEND_URL}/api/user-summary?year=${selectedYear}&month=${selectedMonth}`,
+          {
+            credentials: "include",
+          }
+        );
+        if (!response.ok) {
+          throw new Error(`HTTP error! status: ${response.status}`);
+        }
+        const summary = await response.json();
+        console.log("summary here: ", summary);
+        setUserSummary(summary);
+      } catch (err) {
+        console.log(err);
+      }
+    }
+
+    fetchUserSummary();
+  }, [selectedMonth, selectedYear]);
+
   const expenses = transactions.filter((tx) => tx.type === "Expense");
 
   const income = transactions.filter((tx) => tx.type === "Income");
@@ -86,7 +112,7 @@ const Charts = ({ transactions = [], selectedMonth = 0, selectedYear = 0 }) => {
             </div>
           </div>
           <div className={styles.chatbotContainer}>
-            <InsightsChatbot></InsightsChatbot>
+            <InsightsChatbot userSummary={userSummary}></InsightsChatbot>
           </div>
         </div>
       ) : (

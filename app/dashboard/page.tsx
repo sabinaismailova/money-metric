@@ -12,7 +12,6 @@ export default function DashboardPage() {
   const [error, setError] = useState(null);
   const [transactions, setTransactions] = useState([]);
   const [transactionsError, setTransactionsError] = useState(null);
-  const [userSummary, setUserSummary] = useState({});
   const [activeTab, setActiveTab] = useState("charts");
 
   const router = useRouter();
@@ -31,7 +30,7 @@ export default function DashboardPage() {
     setSelectedMonth(month);
     setSelectedYear(year);
     const params = new URLSearchParams({ month, year });
-    router.replace(`?${params.toString()}`); // updates URL without reload
+    router.replace(`?${params.toString()}`);
   };
 
   const userTimezone = Intl.DateTimeFormat().resolvedOptions().timeZone;
@@ -60,29 +59,6 @@ export default function DashboardPage() {
 
     fetchUserData();
   }, []);
-
-  useEffect(() => {
-    async function fetchUserSummary() {
-      try {
-        const response = await fetch(
-          `${process.env.NEXT_PUBLIC_BACKEND_URL}/api/user-summary?year=${selectedYear}&month=${selectedMonth}`,
-          {
-            credentials: "include",
-          }
-        );
-        if (!response.ok) {
-          throw new Error(`HTTP error! status: ${response.status}`);
-        }
-        const summary = await response.json();
-        console.log("summary here: ", summary)
-        setUserSummary(summary);
-      } catch (err) {
-        console.log(err);
-      }
-    }
-
-    fetchUserSummary();
-  }, [selectedMonth, selectedYear]);
 
   useEffect(() => {
     async function fetchTransactions() {
