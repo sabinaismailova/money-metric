@@ -66,7 +66,7 @@ export default function AddTransaction() {
     <div className={styles.screen}>
       <h1 className={styles.title}>Transaction Form</h1>
       <form className={styles.form} onSubmit={handleSubmit}>
-        <label>
+        <label className={styles.label}>
           Transaction type
           <select className={styles.select} name="type" value={formData.type} onChange={handleChange}>
             <option value="select"></option>
@@ -74,7 +74,7 @@ export default function AddTransaction() {
             <option value="Expense">Expense</option>
           </select>
         </label>
-        <label>
+        <label className={styles.label}>
           Category
           <input
             className={styles.input}
@@ -84,7 +84,7 @@ export default function AddTransaction() {
             onChange={handleChange}
           />
         </label>
-        <label>
+        <label className={styles.label}>
           Amount
           <input
             className={styles.input}
@@ -94,7 +94,7 @@ export default function AddTransaction() {
             onChange={handleChange}
           />
         </label>
-        <label>
+        <label className={styles.label}>
           Date
           <input
             className={styles.input}
@@ -104,18 +104,18 @@ export default function AddTransaction() {
             onChange={handleChange}
           />
         </label>
-        <label>
+        <label className={styles.noteLabel}>
           Note
           <textarea
             name="note"
             rows={3}
             value={formData.note}
             onChange={handleChange}
-            className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm"
-            placeholder="Enter your thoughts here..."
+            className={styles.textarea}
+            placeholder="Enter your note..."
           />
         </label>
-        <label>
+        <label className={styles.label}>
           Recurring?
           <input
             className={styles.input}
@@ -127,7 +127,7 @@ export default function AddTransaction() {
         </label>
         {formData.isRecurring && (
           <>
-            <label>
+            <label className={styles.label}>
               How often
               <select
                 className={styles.select}
@@ -143,7 +143,7 @@ export default function AddTransaction() {
                 <option value="Yearly">Yearly</option>
               </select>
             </label>
-            <label>
+            <label className={styles.label}>
               Next recurrence
               <input
                 className={styles.input}
