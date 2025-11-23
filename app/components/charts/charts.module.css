@@ -98,11 +98,21 @@
   min-width: 20em;
 }
 
+.side {
+    display:flex;
+    flex-direction: column;
+    justify-content: start;
+    align-items: start;
+    height: 100%;
+    max-height: 50em;
+}
+
 .chatbotContainer {
   display: flex;
   flex-shrink: 1;
   width: 22em;
-  height: 27em;
+  height: 100%;
+  max-height: 34em;
   margin: 0.5em;
 }
 
