@@ -1,68 +1,110 @@
 .sidenavbar {
-    display: flex;
-    flex-direction: column;
-    justify-content: space-evenly;
-    align-items: center;
-    width: 10%;
-    height: 90%;
-    margin: 2em;
-    background-color:cadetblue;
-    border-radius: 2em;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-evenly;
+  align-items: center;
+  width: 10%;
+  height: 90%;
+  margin: 2em;
+  background-color: cadetblue;
+  border-radius: 2em;
 }
 
-.monthButton {
-    padding: 0.25em;
-    padding-left: 0.5em;
-    padding-right: 0.5em;
-    color: white;
+.monthButton,
+.yearButton {
+  padding: 0.25em;
+  padding-left: 0.5em;
+  padding-right: 0.5em;
+  color: white;
 }
 
-.activeMonth {
-    font-weight: bolder;
-    border: 2px solid white;
-    border-radius: 0.5em;
+.activeMonth,
+.activeYear {
+  font-weight: bolder;
+  border: 2px solid white;
+  border-radius: 0.5em;
+}
+
+.yearPickerBackdrop {
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.4);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 50;
+}
+
+.yearPicker {
+  background: #1d273b;
+  padding: 20px;
+  border-radius: 12px;
+  min-width: 200px;
+  text-align: center;
+}
+
+.yearList {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  margin-top: 10px;
+}
+
+.yearItem {
+  padding: 8px 10px;
+  border-radius: 6px;
+  cursor: pointer;
+  background: #1d273b;
+  border: 1px solid #e5e7eb;
+}
+
+.closeButton {
+  margin-top: 12px;
+  background: #495f90;
+  padding: 6px 10px;
+  border-radius: 6px;
 }
 
 .topnavbar {
-    display: flex;
-    justify-content: space-evenly;
-    align-items: center;
-    width: 90%;
-    height: 6%;
-    margin: 1em;
-    background-color:cadetblue;
-    border-radius: 2em;
+  display: flex;
+  justify-content: space-evenly;
+  align-items: center;
+  width: 90%;
+  height: 6%;
+  margin: 1em;
+  background-color: cadetblue;
+  border-radius: 2em;
 }
 
 .btn {
-    padding: 0.25em;
-    padding-left: 0.5em;
-    padding-right: 0.5em;
-    color: white;
+  padding: 0.25em;
+  padding-left: 0.5em;
+  padding-right: 0.5em;
+  color: white;
 }
 
 .activeBtn {
-    font-weight: bolder;
-    border: 2px solid white;
-    border-radius: 0.5em;
-    padding: 0.25em;
-    padding-left: 0.5em;
-    padding-right: 0.5em;
+  font-weight: bolder;
+  border: 2px solid white;
+  border-radius: 0.5em;
+  padding: 0.25em;
+  padding-left: 0.5em;
+  padding-right: 0.5em;
 }
 
-@media screen and ((max-width: 500px)){
-    .sidenavbar {
-        display: none;
-    }
+@media screen and ((max-width: 500px)) {
+  .sidenavbar {
+    display: none;
+  }
 
-    .topnavbar {
-        width: 100%;
-        height: 60px;
-        margin: 0;
-        border-radius: 0;
-    }
+  .topnavbar {
+    width: 100%;
+    height: 60px;
+    margin: 0;
+    border-radius: 0;
+  }
 
-    .welcome {
-        display: none;
-    }
+  .welcome {
+    display: none;
+  }
 }

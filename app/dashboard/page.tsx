@@ -13,6 +13,7 @@ export default function DashboardPage() {
   const [transactions, setTransactions] = useState([]);
   const [transactionsError, setTransactionsError] = useState(null);
   const [activeTab, setActiveTab] = useState("charts");
+  const [userYears, setUserYears] = useState([]);
 
   const router = useRouter();
   const searchParams = useSearchParams();
@@ -82,6 +83,21 @@ export default function DashboardPage() {
     fetchTransactions();
   }, [selectedMonth, selectedYear]);
 
+  useEffect(() => {
+    async function fetchYears() {
+      const res = await fetch(
+        `${process.env.NEXT_PUBLIC_BACKEND_URL}/api/transactions/years`,
+        { credentials: "include" }
+      );
+  
+      const data = await res.json();
+      console.log("user years: ", data)
+      setUserYears(data.years);
+    }
+  
+    fetchYears();
+  }, []);
+
   if (!user) return <p>Loading dashboard...</p>;
 
   if (error) return error;
@@ -100,6 +116,8 @@ export default function DashboardPage() {
         selectedYear={selectedYear}
         selectedMonth={selectedMonth}
         setSelectedMonth={(m) => updateSelection(m, selectedYear)}
+        setSelectedYear={(y) => updateSelection(selectedMonth, y)}
+        availableYears={userYears}
       ></Sidenavbar>
       <div className={styles.content}>
         <Topnavbar
