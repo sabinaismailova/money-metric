@@ -82,7 +82,6 @@ export default function LineChart({ month = 0, income = [], expenses = [] }) {
         borderColor: "rgba(75, 192, 192, 1)",
         backgroundColor: "rgba(75, 192, 192, 0.2)",
         tension: 0.3,
-        fill: true,
         pointRadius: 4,
       },
       {
@@ -91,7 +90,6 @@ export default function LineChart({ month = 0, income = [], expenses = [] }) {
         borderColor: "rgba(255, 99, 132, 1)",
         backgroundColor: "rgba(255, 99, 132, 0.2)",
         tension: 0.3,
-        fill: true,
         pointRadius: 4,
       },
     ],

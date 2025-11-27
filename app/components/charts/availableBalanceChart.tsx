@@ -111,7 +111,6 @@ const AvailableBalanceChart = ({
         borderColor: "#4fd1c5",
         backgroundColor: "rgba(79, 209, 197, 0.2)",
         tension: 0.3,
-        fill: true,
         pointRadius: 4,
       },
     ],

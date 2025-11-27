@@ -4,6 +4,7 @@ import { useRouter, useSearchParams } from "next/navigation";
 import Sidenavbar from "../components/navbars/sidenavbar";
 import Topnavbar from "../components/navbars/topnavbar";
 import Charts from "../components/charts/charts";
+import YearlyCharts from "../components/yearlyCharts/yearlyCharts";
 import Transactions from "../components/transactions/transactions";
 import styles from "./dashboard.module.css";
 
@@ -12,6 +13,7 @@ export default function DashboardPage() {
   const [error, setError] = useState(null);
   const [transactions, setTransactions] = useState([]);
   const [transactionsError, setTransactionsError] = useState(null);
+  const [yearlyTransactions, setYearlyTransactions] = useState([]);
   const [activeTab, setActiveTab] = useState("charts");
   const [userYears, setUserYears] = useState([]);
 
@@ -89,13 +91,26 @@ export default function DashboardPage() {
         `${process.env.NEXT_PUBLIC_BACKEND_URL}/api/transactions/years`,
         { credentials: "include" }
       );
-  
+
       const data = await res.json();
-      console.log("user years: ", data)
       setUserYears(data.years);
     }
-  
+
     fetchYears();
+  }, []);
+
+  useEffect(() => {
+    async function fetchYearlyTransactions() {
+      const res = await fetch(
+        `${process.env.NEXT_PUBLIC_BACKEND_URL}/api/transactions/yearly/${selectedYear}`,
+        { credentials: "include" }
+      );
+
+      const data = await res.json();
+      setYearlyTransactions(data);
+    }
+
+    fetchYearlyTransactions();
   }, []);
 
   if (!user) return <p>Loading dashboard...</p>;

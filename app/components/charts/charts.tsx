@@ -26,7 +26,6 @@ const Charts = ({ transactions = [], selectedMonth = 0, selectedYear = 0 }) => {
           throw new Error(`HTTP error! status: ${response.status}`);
         }
         const summary = await response.json();
-        console.log("summary here: ", summary);
         setUserSummary(summary);
       } catch (err) {
         console.log(err);
@@ -101,9 +100,11 @@ const Charts = ({ transactions = [], selectedMonth = 0, selectedYear = 0 }) => {
                 selectedYear={selectedYear}
               ></AvailableBalanceChart>
             </div>
-            <div className={styles.chart}>
-              <BarGraphY income={income}></BarGraphY>
-            </div>
+            {income.length > 0 && (
+              <div className={styles.chart}>
+                <BarGraphY income={income}></BarGraphY>
+              </div>
+            )}
           </div>
           <div className={styles.side}>
             <div className={styles.cardChart}>

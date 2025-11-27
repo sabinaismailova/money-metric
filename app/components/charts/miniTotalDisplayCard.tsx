@@ -41,7 +41,6 @@ const MiniTotalDisplayCard = ({
         borderWidth: 2,
         tension: 0.3,
         pointRadius: 0,
-        fill: true,
       },
     ],
   };
