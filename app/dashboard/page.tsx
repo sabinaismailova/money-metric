@@ -45,12 +45,6 @@ export default function DashboardPage() {
     }
   };
 
-  // useEffect(() => {
-  //   if (!router) return;
-  
-  //   updateSelection(selectedMonth, selectedYear, mode)
-  // }, [selectedYear, selectedMonth, mode]);
-
   const userTimezone = Intl.DateTimeFormat().resolvedOptions().timeZone;
 
   useEffect(() => {
@@ -145,10 +139,6 @@ export default function DashboardPage() {
       <Sidenavbar
         selectedYear={selectedYear}
         selectedMonth={selectedMonth}
-        mode={mode}
-        setSelectedMonth={setSelectedMonth}
-        setSelectedYear={setSelectedYear}
-        setMode={setMode}
         availableYears={userYears}
         updateSelection={updateSelection}
       ></Sidenavbar>
