@@ -1,16 +1,9 @@
 "use client";
 import { useEffect, useState } from "react";
-import DonutChart from "./donutChart";
-import LineChart from "./lineChart";
-import BarGraphY from "./barGraphY";
-import MiniTotalDisplayCard from "./miniTotalDisplayCard";
-import AvailableBalanceCard from "./availableBalanceCard";
-import styles from "./charts.module.css";
-import AvailableBalanceChart from "./availableBalanceChart";
-import CashflowWaterfallChart from "./cashflowWaterfallChart";
+import styles from "../charts/charts.module.css";
 import InsightsChatbot from "../chatbot/insightsChatbot";
 
-const Charts = ({ transactions = [], selectedMonth = 0, selectedYear = 0, mode = ""}) => {
+const YearlyCharts = ({ transactions = [], selectedMonth = 0, selectedYear = 0, mode = ""}) => {
   const [userSummary, setUserSummary] = useState({});
 
   useEffect(() => {
@@ -33,7 +26,7 @@ const Charts = ({ transactions = [], selectedMonth = 0, selectedYear = 0, mode =
     }
 
     fetchUserSummary();
-  }, [selectedMonth, selectedYear]);
+  }, [selectedYear]);
 
   const expenses = transactions.filter((tx) => tx.type === "Expense");
 
@@ -51,10 +44,9 @@ const Charts = ({ transactions = [], selectedMonth = 0, selectedYear = 0, mode =
         overflowY: "scroll",
       }}
     >
-      {transactions.length > 0 ? (
         <div className={styles.charts}>
           <div className={styles.chartGroup}>
-            {expenses.length > 0 && (
+            {/* {expenses.length > 0 && (
               <div className={styles.chart}>
                 <DonutChart expenses={expenses} />
               </div>
@@ -104,27 +96,22 @@ const Charts = ({ transactions = [], selectedMonth = 0, selectedYear = 0, mode =
               <div className={styles.chart}>
                 <BarGraphY income={income}></BarGraphY>
               </div>
-            )}
+            )} */}
           </div>
           <div className={styles.side}>
             <div className={styles.cardChart}>
-              <AvailableBalanceCard
+              {/* <AvailableBalanceCard
                 selectedMonth={selectedMonth}
                 selectedYear={selectedYear}
-              />
+              /> */}
             </div>
             <div className={styles.chatbotContainer}>
               <InsightsChatbot userSummary={userSummary}></InsightsChatbot>
             </div>
           </div>
         </div>
-      ) : (
-        <p>
-          No data for {selectedMonth + 1}/{selectedYear}
-        </p>
-      )}
     </div>
   );
 };
 
-export default Charts;
+export default YearlyCharts;

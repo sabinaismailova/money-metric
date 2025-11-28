@@ -15,6 +15,7 @@ export default function DashboardPage() {
   const [transactionsError, setTransactionsError] = useState(null);
   const [yearlyTransactions, setYearlyTransactions] = useState([]);
   const [activeTab, setActiveTab] = useState("charts");
+  const [mode, setMode] = useState<"monthly" | "yearly">("monthly");
   const [userYears, setUserYears] = useState([]);
 
   const router = useRouter();
@@ -29,12 +30,26 @@ export default function DashboardPage() {
     Number(searchParams.get("year")) || today.getFullYear()
   );
 
-  const updateSelection = (month, year) => {
+  const updateSelection = (month, year, view) => {
     setSelectedMonth(month);
     setSelectedYear(year);
-    const params = new URLSearchParams({ month, year });
-    router.replace(`?${params.toString()}`);
+    setMode(view);
+    const params = new URLSearchParams();
+    params.set("year", year);
+    params.set("view", view);
+    if (view === "monthly") {
+      params.set("month", month);
+    }
+    if(router){
+      router.replace(`?${params.toString()}`);
+    }
   };
+
+  // useEffect(() => {
+  //   if (!router) return;
+  
+  //   updateSelection(selectedMonth, selectedYear, mode)
+  // }, [selectedYear, selectedMonth, mode]);
 
   const userTimezone = Intl.DateTimeFormat().resolvedOptions().timeZone;
 
@@ -111,7 +126,7 @@ export default function DashboardPage() {
     }
 
     fetchYearlyTransactions();
-  }, []);
+  }, [selectedYear]);
 
   if (!user) return <p>Loading dashboard...</p>;
 
@@ -130,9 +145,12 @@ export default function DashboardPage() {
       <Sidenavbar
         selectedYear={selectedYear}
         selectedMonth={selectedMonth}
-        setSelectedMonth={(m) => updateSelection(m, selectedYear)}
-        setSelectedYear={(y) => updateSelection(selectedMonth, y)}
+        mode={mode}
+        setSelectedMonth={setSelectedMonth}
+        setSelectedYear={setSelectedYear}
+        setMode={setMode}
         availableYears={userYears}
+        updateSelection={updateSelection}
       ></Sidenavbar>
       <div className={styles.content}>
         <Topnavbar
@@ -142,13 +160,25 @@ export default function DashboardPage() {
           handleActiveTabChange={handleActiveTabChange}
         />
         {activeTab === "charts" ? (
-          <Charts
-            transactions={transactions}
-            selectedMonth={selectedMonth}
-            selectedYear={selectedYear}
-          ></Charts>
-        ) : (
+          mode == "monthly" ? (
+            <Charts
+              transactions={transactions}
+              selectedMonth={selectedMonth}
+              selectedYear={selectedYear}
+              mode={mode}
+            ></Charts>
+          ) : (
+            <YearlyCharts
+              transactions={yearlyTransactions}
+              selectedMonth={selectedMonth}
+              selectedYear={selectedYear}
+              mode={mode}
+            ></YearlyCharts>
+          )
+        ) : mode == "monthly" ? (
           <Transactions transactions={transactions}></Transactions>
+        ) : (
+          <Transactions transactions={yearlyTransactions}></Transactions>
         )}
       </div>
     </div>
