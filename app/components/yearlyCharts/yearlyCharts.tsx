@@ -1,9 +1,15 @@
 "use client";
 import { useEffect, useState } from "react";
-import styles from "../charts/charts.module.css";
+import styles from "./yearlyCharts.module.css";
 import InsightsChatbot from "../chatbot/insightsChatbot";
+import IncomeExpensesBarGraph from "./incomeExpensesBarGraph";
 
-const YearlyCharts = ({ transactions = [], selectedMonth = 0, selectedYear = 0, mode = ""}) => {
+const YearlyCharts = ({
+  transactions = [],
+  selectedMonth = 0,
+  selectedYear = 0,
+  mode = "",
+}) => {
   const [userSummary, setUserSummary] = useState({});
 
   useEffect(() => {
@@ -44,15 +50,21 @@ const YearlyCharts = ({ transactions = [], selectedMonth = 0, selectedYear = 0, 
         overflowY: "scroll",
       }}
     >
-        <div className={styles.charts}>
-          <div className={styles.chartGroup}>
-          </div>
-          <div className={styles.side}>
-            <div className={styles.chatbotContainer}>
-              <InsightsChatbot userSummary={userSummary}></InsightsChatbot>
-            </div>
+      <div className={styles.charts}>
+        <div className={styles.chartGroup}>
+          <div className={styles.chart}>
+            <IncomeExpensesBarGraph
+              income={income}
+              expenses={expenses}
+            ></IncomeExpensesBarGraph>
           </div>
         </div>
+        <div className={styles.side}>
+          <div className={styles.chatbotContainer}>
+            <InsightsChatbot userSummary={userSummary}></InsightsChatbot>
+          </div>
+        </div>
+      </div>
     </div>
   );
 };
