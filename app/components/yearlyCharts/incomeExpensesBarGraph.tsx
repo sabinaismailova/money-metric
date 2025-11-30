@@ -60,7 +60,7 @@ export default function IncomeExpensesBarGraph({ income = [], expenses = [] }) {
     income: incomeMonthlyTotals.get(i) || 0,
     expenses: expensesMonthlyTotals.get(i) || 0,
   }));
-  console.log("data: ", monthlyIncomeExpenses);
+
   const data = {
     labels: months,
     datasets: [

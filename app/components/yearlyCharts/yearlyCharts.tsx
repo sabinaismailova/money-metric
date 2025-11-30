@@ -3,6 +3,7 @@ import { useEffect, useState } from "react";
 import styles from "./yearlyCharts.module.css";
 import InsightsChatbot from "../chatbot/insightsChatbot";
 import IncomeExpensesBarGraph from "./incomeExpensesBarGraph";
+import CategoryTrendsLineGraph from "./categoryTrendsLineGraph";
 
 const YearlyCharts = ({
   transactions = [],
@@ -57,6 +58,9 @@ const YearlyCharts = ({
               income={income}
               expenses={expenses}
             ></IncomeExpensesBarGraph>
+          </div>
+          <div className={styles.chart}>
+            <CategoryTrendsLineGraph expenses={expenses}></CategoryTrendsLineGraph>
           </div>
         </div>
         <div className={styles.side}>
