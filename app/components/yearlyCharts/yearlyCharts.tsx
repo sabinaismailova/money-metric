@@ -4,6 +4,7 @@ import styles from "./yearlyCharts.module.css";
 import InsightsChatbot from "../chatbot/insightsChatbot";
 import IncomeExpensesBarGraph from "./incomeExpensesBarGraph";
 import CategoryTrendsLineGraph from "./categoryTrendsLineGraph";
+import CategoryRanking from "./categoryRankingHorizontalBarChart";
 
 const YearlyCharts = ({
   transactions = [],
@@ -58,6 +59,9 @@ const YearlyCharts = ({
               income={income}
               expenses={expenses}
             ></IncomeExpensesBarGraph>
+          </div>
+          <div className={styles.smallChart}>
+            <CategoryRanking expenses={expenses}></CategoryRanking>
           </div>
           <div className={styles.chart}>
             <CategoryTrendsLineGraph expenses={expenses}></CategoryTrendsLineGraph>

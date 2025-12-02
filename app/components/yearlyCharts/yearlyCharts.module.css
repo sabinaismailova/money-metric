@@ -22,6 +22,20 @@
   height: 15em;
 }
 
+.smallChart {
+    display: flex;
+    flex-direction: column;
+    justify-content: start;
+    align-items: start;
+    flex-shrink: 1;
+    background-color: #1d273b;
+    border-radius: 12px;
+    padding: 0.5em;
+    margin: 0.5em;
+    width: 20em;
+    height: 15em;
+}
+
 .chartGroup {
   display: flex;
   flex-wrap: wrap;
