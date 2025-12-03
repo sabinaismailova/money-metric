@@ -5,6 +5,7 @@ import InsightsChatbot from "../chatbot/insightsChatbot";
 import IncomeExpensesBarGraph from "./incomeExpensesBarGraph";
 import CategoryTrendsLineGraph from "./categoryTrendsLineGraph";
 import CategoryRanking from "./categoryRankingHorizontalBarChart";
+import IncomeSourcesPieChart from "./incomeSourcesPieChart"
 
 const YearlyCharts = ({
   transactions = [],
@@ -62,6 +63,9 @@ const YearlyCharts = ({
           </div>
           <div className={styles.smallChart}>
             <CategoryRanking expenses={expenses}></CategoryRanking>
+          </div>
+          <div className={styles.smallChart}>
+            <IncomeSourcesPieChart income={income}></IncomeSourcesPieChart>
           </div>
           <div className={styles.chart}>
             <CategoryTrendsLineGraph expenses={expenses}></CategoryTrendsLineGraph>
