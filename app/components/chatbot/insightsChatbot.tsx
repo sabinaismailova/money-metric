@@ -3,7 +3,7 @@ import styles from "./chatbot.module.css";
 import UpArrow from "./uparrow.svg";
 import Image from "next/image";
 
-export default function InsightsChatbot({ userSummary = {} }) {
+const InsightsChatbot = ({ userSummary = {} }) => {
   const [input, setInput] = useState("");
   const [messages, setMessages] = useState<
     { role: "user" | "assistant"; text: string }[]
@@ -99,4 +99,6 @@ export default function InsightsChatbot({ userSummary = {} }) {
       </div>
     </div>
   );
-}
+};
+
+export default InsightsChatbot;

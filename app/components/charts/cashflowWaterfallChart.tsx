@@ -8,53 +8,53 @@ import {
   Tooltip,
   Legend,
 } from "chart.js";
-import { useState, useEffect } from 'react';
+import { useState, useEffect } from "react";
 
 ChartJS.register(BarElement, CategoryScale, LinearScale, Tooltip, Legend);
 
-export default function CashflowWaterfallChart({
+const CashflowWaterfallChart = ({
   income = [],
   expenses = [],
   selectedMonth = 0,
   selectedYear = 0,
-}) {
-    let [transactions, setTransactions] = useState([]);
+}) => {
+  let [transactions, setTransactions] = useState([]);
 
-    useEffect(() => {
-      async function fetchTransactions() {
-        try {
-          const response = await fetch(
-            `${process.env.NEXT_PUBLIC_BACKEND_URL}/api/transactions`,
-            {
-              credentials: "include",
-            }
-          );
-          if (!response.ok) {
-            throw new Error(`HTTP error! status: ${response.status}`);
+  useEffect(() => {
+    async function fetchTransactions() {
+      try {
+        const response = await fetch(
+          `${process.env.NEXT_PUBLIC_BACKEND_URL}/api/transactions`,
+          {
+            credentials: "include",
           }
-          const result = await response.json();
-          setTransactions(result);
-        } catch (err) {
-          console.log("Error fetching all transactions: ", err);
+        );
+        if (!response.ok) {
+          throw new Error(`HTTP error! status: ${response.status}`);
         }
+        const result = await response.json();
+        setTransactions(result);
+      } catch (err) {
+        console.log("Error fetching all transactions: ", err);
       }
-  
-      fetchTransactions();
-    }, [selectedMonth, selectedYear]);
-  
-    const cutoffDate = new Date(selectedYear, selectedMonth, 0);
-  
-    const prevTransactions = transactions.filter(
-      (tx) => new Date(tx.date) <= cutoffDate
-    );
-  
-    let startTotal = 0;
-  
-    prevTransactions.forEach((tx) => {
-      const d = new Date(tx.date).getDate();
-      const change = tx.type === "Income" ? tx.amount : -tx.amount;
-      startTotal += change;
-    });
+    }
+
+    fetchTransactions();
+  }, [selectedMonth, selectedYear]);
+
+  const cutoffDate = new Date(selectedYear, selectedMonth, 0);
+
+  const prevTransactions = transactions.filter(
+    (tx) => new Date(tx.date) <= cutoffDate
+  );
+
+  let startTotal = 0;
+
+  prevTransactions.forEach((tx) => {
+    const d = new Date(tx.date).getDate();
+    const change = tx.type === "Income" ? tx.amount : -tx.amount;
+    startTotal += change;
+  });
 
   const incomeTotal = income.reduce((a, b) => a + b.amount, 0);
   const expenseTotal = expenses.reduce((a, b) => a + b.amount, 0);
@@ -63,26 +63,11 @@ export default function CashflowWaterfallChart({
 
   const labels = ["Start", "Income", "Expenses", "End"];
 
-  const invisibleBase = [
-    0,
-    startTotal,
-    startTotal + incomeTotal,
-    0,
-  ];
+  const invisibleBase = [0, startTotal, startTotal + incomeTotal, 0];
 
-  const visibleValues = [
-    startTotal,
-    incomeTotal,
-    -expenseTotal,
-    endingBalance,
-  ];
+  const visibleValues = [startTotal, incomeTotal, -expenseTotal, endingBalance];
 
-  const backgroundColors = [
-    "#4fd1c5",
-    "#4fd1c5",
-    "#f87171",
-    "#60a5fa",
-  ];
+  const backgroundColors = ["#4fd1c5", "#4fd1c5", "#f87171", "#60a5fa"];
 
   const data = {
     labels,
@@ -139,7 +124,7 @@ export default function CashflowWaterfallChart({
     },
   };
 
-  return (
-      <Bar data={data} options={options} />
-  );
-}
+  return <Bar data={data} options={options} />;
+};
+
+export default CashflowWaterfallChart;

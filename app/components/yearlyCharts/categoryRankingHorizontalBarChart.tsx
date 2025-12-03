@@ -18,7 +18,7 @@ ChartJS.register(
   Legend
 );
 
-export default function CategoryRanking({ expenses = [] }) {
+const CategoryRanking = ({ expenses = [] }) => {
   const colors = [
     "rgba(255, 99, 132, 1)",
     "rgba(54, 162, 235, 1)",
@@ -42,16 +42,16 @@ export default function CategoryRanking({ expenses = [] }) {
     (a, b) => a + b,
     0
   );
-  const percentages = categories.map((category) =>
-    ((expensesCategoryTotals.get(category) / totalExpenses) * 100).toFixed(1)
-  );
 
   const sorted = categories
-    .map((category, i) => ({ category, pct: parseFloat(percentages[i]) }))
-    .sort((a, b) => b.pct - a.pct);
+    .map((category, i) => ({
+      category,
+      amount: expensesCategoryTotals.get(category),
+    }))
+    .sort((a, b) => b.amount - a.amount);
 
   const sortedCategories = sorted.map((s) => s.category);
-  const sortedPercentages = sorted.map((s) => s.pct);
+  const sortedAmounts = sorted.map((s) => s.amount);
 
   const categoryColorMap = new Map();
   sortedCategories.forEach((category, i) =>
@@ -63,7 +63,7 @@ export default function CategoryRanking({ expenses = [] }) {
     datasets: [
       {
         label: "% of Total Expenses",
-        data: sortedPercentages,
+        data: sortedAmounts,
         backgroundColor: sortedCategories.map((cat) =>
           categoryColorMap.get(cat)
         ),
@@ -80,20 +80,20 @@ export default function CategoryRanking({ expenses = [] }) {
       legend: { display: false },
       title: {
         display: true,
-        text: "Expenses Sources by Category (%)",
+        text: "Expenses by Category",
         color: "#FFFFFF",
       },
       tooltip: {
         callbacks: {
-          label: (ctx) => `${ctx.parsed.x}%`,
+          label: (ctx) => `$${ctx.parsed.x}`,
         },
       },
     },
     scales: {
       x: {
         beginAtZero: true,
-        max: 100,
-        title: { display: true, text: "% of Total Expenses" },
+        max: totalExpenses,
+        title: { display: true, text: "$ of Total Expenses" },
         grid: {
           color: "#111827",
         },
@@ -109,4 +109,6 @@ export default function CategoryRanking({ expenses = [] }) {
   return (
     <>{expenses.length > 0 ? <Bar data={data} options={options} /> : <></>}</>
   );
-}
+};
+
+export default CategoryRanking;

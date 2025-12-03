@@ -10,7 +10,12 @@ import AvailableBalanceChart from "./availableBalanceChart";
 import CashflowWaterfallChart from "./cashflowWaterfallChart";
 import InsightsChatbot from "../chatbot/insightsChatbot";
 
-const Charts = ({ transactions = [], selectedMonth = 0, selectedYear = 0, mode = ""}) => {
+const Charts = ({
+  transactions = [],
+  selectedMonth = 0,
+  selectedYear = 0,
+  mode = "",
+}) => {
   const [userSummary, setUserSummary] = useState({});
 
   useEffect(() => {

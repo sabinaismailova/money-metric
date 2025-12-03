@@ -62,7 +62,9 @@ const MiniTotalDisplayCard = ({
     <div className={styles.card}>
       <div className={styles.header}>
         <h3 className={styles.title}>{title}</h3>
-        <span className={styles.amount} style={{ color: lineColor }}>${totalSpent.toFixed(2)}</span>
+        <span className={styles.amount} style={{ color: lineColor }}>
+          ${totalSpent.toFixed(2)}
+        </span>
       </div>
       <div className={styles.chartContainer}>
         <Line data={chartData} options={chartOptions} />

@@ -8,7 +8,6 @@ import {
   Tooltip,
   Legend,
 } from "chart.js";
-import styles from "./charts.module.css";
 
 ChartJS.register(
   CategoryScale,
@@ -19,7 +18,7 @@ ChartJS.register(
   Legend
 );
 
-export default function IncomeExpensesBarGraph({ income = [], expenses = [] }) {
+const IncomeExpensesBarGraph = ({ income = [], expenses = [] }) => {
   const months = [
     "Jan",
     "Feb",
@@ -120,7 +119,7 @@ export default function IncomeExpensesBarGraph({ income = [], expenses = [] }) {
     },
   };
 
-  return (
-    <Bar data={data} options={options} />
-  );
-}
+  return <Bar data={data} options={options} />;
+};
+
+export default IncomeExpensesBarGraph;

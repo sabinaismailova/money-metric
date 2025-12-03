@@ -19,7 +19,7 @@ ChartJS.register(
   Legend
 );
 
-export default function BarGraphY({ income = [] }) {
+const BarGraphY = ({ income = [] }) => {
   const incomeCategoryTotals = new Map();
 
   income.forEach((tx) => {
@@ -76,20 +76,20 @@ export default function BarGraphY({ income = [] }) {
       },
     },
     scales: {
-        x: {
-          beginAtZero: true,
-          max: 100,
-          title: { display: true, text: "% of Total Income" },
-          grid: {
-            color: "#111827",
-          },
-        },
-        y: {
-          grid: {
-            color: "#111827",
-          },
+      x: {
+        beginAtZero: true,
+        max: 100,
+        title: { display: true, text: "% of Total Income" },
+        grid: {
+          color: "#111827",
         },
       },
+      y: {
+        grid: {
+          color: "#111827",
+        },
+      },
+    },
   };
 
   return (
@@ -101,4 +101,6 @@ export default function BarGraphY({ income = [] }) {
       )}
     </>
   );
-}
+};
+
+export default BarGraphY;

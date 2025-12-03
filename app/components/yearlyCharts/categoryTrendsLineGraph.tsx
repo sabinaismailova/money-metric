@@ -11,7 +11,6 @@ import {
   Legend,
 } from "chart.js";
 import "chartjs-adapter-date-fns";
-import styles from "./yearlyCharts.module.css";
 
 ChartJS.register(
   LineElement,
@@ -24,7 +23,7 @@ ChartJS.register(
   Legend
 );
 
-export default function CategoryTrendsLineGraph({ expenses = [] }) {
+const CategoryTrendsLineGraph = ({ expenses = [] }) => {
   const months = [
     "Jan",
     "Feb",
@@ -120,4 +119,6 @@ export default function CategoryTrendsLineGraph({ expenses = [] }) {
   return (
     <>{expenses.length > 0 ? <Line data={data} options={options} /> : <></>}</>
   );
-}
+};
+
+export default CategoryTrendsLineGraph;

@@ -24,7 +24,7 @@ ChartJS.register(
   Legend
 );
 
-export default function LineChart({ month = 0, income = [], expenses = [] }) {
+const LineChart = ({ month = 0, income = [], expenses = [] }) => {
   const months = [
     "January",
     "February",
@@ -45,7 +45,7 @@ export default function LineChart({ month = 0, income = [], expenses = [] }) {
   const expenseMap = new Map();
 
   expenses.forEach((tx) => {
-    const dateOnly = tx.date.split("T")[0]; 
+    const dateOnly = tx.date.split("T")[0];
     const localDate = new Date(`${dateOnly}T00:00:00`);
     const dayKey = localDate.getTime();
     const current = expenseMap.get(dayKey) || 0;
@@ -62,7 +62,7 @@ export default function LineChart({ month = 0, income = [], expenses = [] }) {
   const incomeMap = new Map();
 
   income.forEach((tx) => {
-    const dateOnly = tx.date.split("T")[0]; 
+    const dateOnly = tx.date.split("T")[0];
     const localDate = new Date(`${dateOnly}T00:00:00`);
     const dayKey = localDate.getTime();
     const current = incomeMap.get(dayKey) || 0;
@@ -109,7 +109,7 @@ export default function LineChart({ month = 0, income = [], expenses = [] }) {
         },
       },
       legend: { position: "top" },
-      title: { display: true, text: "Income vs Expenses", color: "#FFFFFF"},
+      title: { display: true, text: "Income vs Expenses", color: "#FFFFFF" },
     },
     scales: {
       x: {
@@ -122,18 +122,20 @@ export default function LineChart({ month = 0, income = [], expenses = [] }) {
         },
         title: { display: true, text: monthName },
         grid: {
-            color: "#111827"
+          color: "#111827",
         },
       },
       y: {
         beginAtZero: true,
         title: { display: true, text: "Amount ($)" },
         grid: {
-            color: "#111827"
+          color: "#111827",
         },
       },
     },
   };
 
   return <Line className={styles.lineChart} data={data} options={options} />;
-}
+};
+
+export default LineChart;
