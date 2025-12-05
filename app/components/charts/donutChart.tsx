@@ -55,17 +55,11 @@ const DonutChart = ({ expenses = [] }) => {
   };
 
   return (
-    <>
-      {expenses.length > 0 ? (
         <Doughnut
           className={styles.donutChart}
           data={chartData}
           options={options}
         />
-      ) : (
-        <></>
-      )}
-    </>
   );
 };
 

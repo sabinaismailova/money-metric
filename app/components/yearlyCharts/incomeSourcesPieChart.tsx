@@ -4,7 +4,7 @@ import { Chart as ChartJS, ArcElement, Tooltip, Legend } from "chart.js";
 
 ChartJS.register(ArcElement, Tooltip, Legend);
 
-const IncomeSourcesPieChart = ({ income = [] }) => {
+const IncomeSourcesPieChart = ({ income = [], categoryColors = []}) => {
   const colors = [
     "rgba(255, 99, 132, 1)",
     "rgba(54, 162, 235, 1)",
@@ -15,21 +15,20 @@ const IncomeSourcesPieChart = ({ income = [] }) => {
   ];
 
   const categoryTotals = new Map();
-  const categoryColors = new Map()
+  const colorMap = new Map(
+    categoryColors.map(c => [c.category, c.color])
+  );
 
   income.forEach((tx, i) => {
     categoryTotals.set(
       tx.category,
       (categoryTotals.get(tx.category) || 0) + tx.amount
     );
-    categoryColors.set(tx.category, tx.color? tx.color:colors[i%colors.length]);
   });
 
   const labels = Array.from(categoryTotals.keys());
   const data = Array.from(categoryTotals.values());
-  const backgroundColors = labels.map((category) => categoryColors.get(category));
-
-  console.log(income[0])
+  const backgroundColors = labels.map((category) => colorMap.get(category));
 
   const chartData = {
     labels,

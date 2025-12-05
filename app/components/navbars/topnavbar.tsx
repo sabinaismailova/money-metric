@@ -7,9 +7,7 @@ interface TopnavbarProps {
   handleLogout: () => void;
   activeTab: String;
   handleActiveTabChange: (e: any) => void;
-  transactions: [];
-  yearlyTransactions: [];
-  mode: String;
+  categoryColors: [];
 }
 
 const Topnavbar: React.FC<TopnavbarProps> = ({
@@ -17,9 +15,7 @@ const Topnavbar: React.FC<TopnavbarProps> = ({
   handleLogout,
   activeTab,
   handleActiveTabChange,
-  transactions,
-  yearlyTransactions,
-  mode,
+  categoryColors,
 }) => {
   const [settingsOpen, setSettingsOpen] = useState(false);
 
@@ -31,20 +27,11 @@ const Topnavbar: React.FC<TopnavbarProps> = ({
     setSettingsOpen(true);
   };
 
-  const categoryColors = new Map()
+  const colorMap = new Map(
+    categoryColors.map(c => [c.category, c.color])
+  );
 
-  if(mode=="yearly"){
-    yearlyTransactions.forEach((tx) => {
-        categoryColors.set(tx.category, (tx.color||""))
-    })
-  }
-  else{ 
-    transactions.forEach((tx) => {
-        categoryColors.set(tx.category, (tx.color||""))
-    })
-  }
-
-  const categories = Array.from(categoryColors.keys());
+  const categories = Array.from(colorMap.keys());
 
   return (
     <div className={styles.topnavbar}>
@@ -84,7 +71,7 @@ const Topnavbar: React.FC<TopnavbarProps> = ({
                   <label>
                     <input
                       type="color"
-                      value={categoryColors.get(category) || "#ffffff"}
+                      value={colorMap.get(category) || "#ffffff"}
                       onChange={(e) =>
                         handleColorChange(category, e.target.value)
                       }

@@ -31,6 +31,7 @@ const Charts = ({
           throw new Error(`HTTP error! status: ${response.status}`);
         }
         const summary = await response.json();
+        console.log("summary: ", summary)
         setUserSummary(summary);
       } catch (err) {
         console.log(err);

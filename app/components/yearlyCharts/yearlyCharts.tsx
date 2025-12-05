@@ -5,13 +5,14 @@ import InsightsChatbot from "../chatbot/insightsChatbot";
 import IncomeExpensesBarGraph from "./incomeExpensesBarGraph";
 import CategoryTrendsLineGraph from "./categoryTrendsLineGraph";
 import CategoryRanking from "./categoryRankingHorizontalBarChart";
-import IncomeSourcesPieChart from "./incomeSourcesPieChart"
+import IncomeSourcesPieChart from "./incomeSourcesPieChart";
 
 const YearlyCharts = ({
   transactions = [],
   selectedMonth = 0,
   selectedYear = 0,
   mode = "",
+  categoryColors = [],
 }) => {
   const [userSummary, setUserSummary] = useState({});
 
@@ -65,10 +66,17 @@ const YearlyCharts = ({
             <CategoryRanking expenses={expenses}></CategoryRanking>
           </div>
           <div className={styles.smallChart}>
-            <IncomeSourcesPieChart income={income}></IncomeSourcesPieChart>
+            {income.length > 0 && (
+              <IncomeSourcesPieChart
+                income={income}
+                categoryColors={categoryColors}
+              ></IncomeSourcesPieChart>
+            )}
           </div>
           <div className={styles.chart}>
-            <CategoryTrendsLineGraph expenses={expenses}></CategoryTrendsLineGraph>
+            <CategoryTrendsLineGraph
+              expenses={expenses}
+            ></CategoryTrendsLineGraph>
           </div>
         </div>
         <div className={styles.side}>

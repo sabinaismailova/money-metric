@@ -14,6 +14,7 @@ export default function DashboardPage() {
   const [transactions, setTransactions] = useState([]);
   const [transactionsError, setTransactionsError] = useState(null);
   const [yearlyTransactions, setYearlyTransactions] = useState([]);
+  const [categoryColors, setCategoryColors] = useState([]);
   const [activeTab, setActiveTab] = useState("charts");
   const [mode, setMode] = useState<"monthly" | "yearly">("monthly");
   const [userYears, setUserYears] = useState([]);
@@ -40,7 +41,7 @@ export default function DashboardPage() {
     if (view === "monthly") {
       params.set("month", month);
     }
-    if(router){
+    if (router) {
       router.replace(`?${params.toString()}`);
     }
   };
@@ -122,6 +123,23 @@ export default function DashboardPage() {
     fetchYearlyTransactions();
   }, [selectedYear]);
 
+  useEffect(() => {
+    async function fetchCategoryColors() {
+      const res = await fetch(
+        `${process.env.NEXT_PUBLIC_BACKEND_URL}/api/categoryColors/`,
+        { 
+          method: "GET", 
+          credentials: "include" 
+        }
+      );
+
+      const data = await res.json();
+      setCategoryColors(data);
+    }
+
+    fetchCategoryColors();
+  }, [categoryColors]);
+
   if (!user) return <p>Loading dashboard...</p>;
 
   if (error) return error;
@@ -148,9 +166,7 @@ export default function DashboardPage() {
           handleLogout={handleLogout}
           activeTab={activeTab}
           handleActiveTabChange={handleActiveTabChange}
-          transactions={transactions}
-          yearlyTransactions={yearlyTransactions}
-          mode={mode}
+          categoryColors={categoryColors}
         />
         {activeTab === "charts" ? (
           mode == "monthly" ? (
@@ -166,6 +182,7 @@ export default function DashboardPage() {
               selectedMonth={selectedMonth}
               selectedYear={selectedYear}
               mode={mode}
+              categoryColors={categoryColors}
             ></YearlyCharts>
           )
         ) : mode == "monthly" ? (
