@@ -14,21 +14,22 @@ const IncomeSourcesPieChart = ({ income = [] }) => {
     "rgba(255, 159, 64, 1)",
   ];
 
-  const incomeTotals = new Map();
+  const categoryTotals = new Map();
+  const categoryColors = new Map()
 
-  income.forEach((tx) => {
-    incomeTotals.set(
+  income.forEach((tx, i) => {
+    categoryTotals.set(
       tx.category,
-      (incomeTotals.get(tx.category) || 0) + tx.amount
+      (categoryTotals.get(tx.category) || 0) + tx.amount
     );
+    categoryColors.set(tx.category, tx.color? tx.color:colors[i%colors.length]);
   });
-
-  const categoryTotals = incomeTotals;
 
   const labels = Array.from(categoryTotals.keys());
   const data = Array.from(categoryTotals.values());
+  const backgroundColors = labels.map((category) => categoryColors.get(category));
 
-  const backgroundColors = labels.map((_, i) => colors[i % colors.length]);
+  console.log(income[0])
 
   const chartData = {
     labels,
@@ -56,7 +57,7 @@ const IncomeSourcesPieChart = ({ income = [] }) => {
         },
       },
       legend: { position: "top" },
-      title: { display: true, text: "income Distribution", color: "#FFFFFF" },
+      title: { display: true, text: "Income Distribution", color: "#FFFFFF" },
     },
   };
 

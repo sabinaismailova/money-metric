@@ -30,7 +30,13 @@
   border-radius: 0.5em;
 }
 
-.yearPickerBackdrop {
+.heading {
+    font-weight: bold;
+    font-size: large;
+    margin-bottom: 1em;
+}
+
+.yearPickerBackdrop, .settingsBackdrop {
   position: fixed;
   inset: 0;
   background: rgba(0, 0, 0, 0.4);
@@ -40,11 +46,12 @@
   z-index: 50;
 }
 
-.yearPicker {
+.yearPicker, .settings {
   background-color: #1d273b;
   padding: 20px;
   border-radius: 12px;
   min-width: 200px;
+  max-width: 100%;
   text-align: center;
 }
 
@@ -55,12 +62,29 @@
   margin-top: 10px;
 }
 
+.categoryColorsList {
+    display: flex;
+    justify-content: start;
+    align-items: start;
+    flex-wrap: wrap;
+    gap: 1em;
+    margin-bottom: 1em;
+    max-width: 800px;
+}
+
 .yearItem {
   padding: 8px 10px;
   border-radius: 6px;
   cursor: pointer;
   background: #1d273b;
   border: 1px solid #e5e7eb;
+}
+
+.categoryColor {
+    display: flex;
+    justify-content: space-evenly;
+    flex-wrap: wrap;
+    width: 9em;
 }
 
 .closeButton {

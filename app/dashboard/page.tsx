@@ -148,6 +148,9 @@ export default function DashboardPage() {
           handleLogout={handleLogout}
           activeTab={activeTab}
           handleActiveTabChange={handleActiveTabChange}
+          transactions={transactions}
+          yearlyTransactions={yearlyTransactions}
+          mode={mode}
         />
         {activeTab === "charts" ? (
           mode == "monthly" ? (
