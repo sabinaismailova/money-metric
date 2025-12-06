@@ -18,18 +18,43 @@ const Topnavbar: React.FC<TopnavbarProps> = ({
   categoryColors,
 }) => {
   const [settingsOpen, setSettingsOpen] = useState(false);
+  const colors = new Map(categoryColors.map((c) => [c.category, c.color]));
+  const [colorMap, setColorMap] = useState(colors);
+
+  const isEqual = (m1: Map<string, string>, m2: Map<string, string>) =>
+    m1.size === m2.size && [...m1].every(([k, v]) => m2.get(k) === v);
 
   const handleColorChange = (category: string, newColor: string) => {
-    
+    const updated = new Map(colorMap);
+    updated.set(category, newColor);
+    setColorMap(updated);
   };
 
   const handleSettingsClick = () => {
+    setColorMap(colors);
     setSettingsOpen(true);
   };
 
-  const colorMap = new Map(
-    categoryColors.map(c => [c.category, c.color])
-  );
+  const saveColors = async () => {
+    const payload = Array.from(colorMap).map(([category, color]) => ({
+      category,
+      color,
+    }));
+
+    await fetch(
+      `${process.env.NEXT_PUBLIC_BACKEND_URL}/api/categoryColors/update`,
+      {
+        method: "PUT",
+        credentials: "include",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ updates: payload }),
+      }
+    );
+
+    setSettingsOpen(false);
+  };
 
   const categories = Array.from(colorMap.keys());
 
@@ -81,9 +106,16 @@ const Topnavbar: React.FC<TopnavbarProps> = ({
               ))}
             </div>
 
+            {!isEqual(colors, colorMap) && (
+              <button className={styles.saveButton} onClick={saveColors}>
+                Save
+              </button>
+            )}
             <button
               className={styles.closeButton}
-              onClick={() => setSettingsOpen(false)}
+              onClick={() => {
+                setSettingsOpen(false), setColorMap(colors);
+              }}
             >
               Close
             </button>

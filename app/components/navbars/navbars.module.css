@@ -31,12 +31,13 @@
 }
 
 .heading {
-    font-weight: bold;
-    font-size: large;
-    margin-bottom: 1em;
+  font-weight: bold;
+  font-size: large;
+  margin-bottom: 1em;
 }
 
-.yearPickerBackdrop, .settingsBackdrop {
+.yearPickerBackdrop,
+.settingsBackdrop {
   position: fixed;
   inset: 0;
   background: rgba(0, 0, 0, 0.4);
@@ -46,7 +47,8 @@
   z-index: 50;
 }
 
-.yearPicker, .settings {
+.yearPicker,
+.settings {
   background-color: #1d273b;
   padding: 20px;
   border-radius: 12px;
@@ -63,13 +65,13 @@
 }
 
 .categoryColorsList {
-    display: flex;
-    justify-content: start;
-    align-items: start;
-    flex-wrap: wrap;
-    gap: 1em;
-    margin-bottom: 1em;
-    max-width: 800px;
+  display: flex;
+  justify-content: start;
+  align-items: start;
+  flex-wrap: wrap;
+  gap: 1em;
+  margin-bottom: 1em;
+  max-width: 800px;
 }
 
 .yearItem {
@@ -81,15 +83,24 @@
 }
 
 .categoryColor {
-    display: flex;
-    justify-content: space-evenly;
-    flex-wrap: wrap;
-    width: 9em;
+  display: flex;
+  justify-content: space-evenly;
+  flex-wrap: wrap;
+  width: 9em;
 }
 
 .closeButton {
   margin-top: 12px;
+  margin: 8px;
   background: #495f90;
+  padding: 6px 10px;
+  border-radius: 6px;
+}
+
+.saveButton {
+  margin-top: 12px;
+  margin: 8px;
+  background: #4bc0c0;
   padding: 6px 10px;
   border-radius: 6px;
 }
