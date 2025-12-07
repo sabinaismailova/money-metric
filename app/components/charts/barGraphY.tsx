@@ -19,7 +19,8 @@ ChartJS.register(
   Legend
 );
 
-const BarGraphY = ({ income = [] }) => {
+const BarGraphY = ({ income = [], categoryColors = [] }) => {
+    const colorMap = new Map(categoryColors.map((c) => [c.category, c.color]))
   const incomeCategoryTotals = new Map();
 
   income.forEach((tx) => {
@@ -44,6 +45,7 @@ const BarGraphY = ({ income = [] }) => {
 
   const sortedCategories = sorted.map((s) => s.category);
   const sortedPercentages = sorted.map((s) => s.pct);
+  const colors = sorted.map((s) => colorMap.get(s.category))
 
   const data = {
     labels: sortedCategories,
@@ -51,8 +53,8 @@ const BarGraphY = ({ income = [] }) => {
       {
         label: "% of Total Income",
         data: sortedPercentages,
-        borderColor: "rgba(75, 192, 192, 0.2)",
-        backgroundColor: "rgba(75, 192, 192, 1)",
+        borderColor: colors,
+        backgroundColor: colors,
         borderRadius: 8,
       },
     ],
@@ -92,15 +94,7 @@ const BarGraphY = ({ income = [] }) => {
     },
   };
 
-  return (
-    <>
-      {income.length > 0 ? (
-        <Bar className={styles.barGraphY} data={data} options={options} />
-      ) : (
-        <></>
-      )}
-    </>
-  );
+  return <Bar className={styles.barGraphY} data={data} options={options} />;
 };
 
 export default BarGraphY;

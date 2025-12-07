@@ -36,7 +36,7 @@ const YearlyCharts = ({
     }
 
     fetchUserSummary();
-  }, [selectedYear]);
+  }, []);
 
   const expenses = transactions.filter((tx) => tx.type === "Expense");
 
@@ -63,7 +63,7 @@ const YearlyCharts = ({
             ></IncomeExpensesBarGraph>
           </div>
           <div className={styles.smallChart}>
-            <CategoryRanking expenses={expenses}></CategoryRanking>
+            <CategoryRanking expenses={expenses} categoryColors={categoryColors}></CategoryRanking>
           </div>
           <div className={styles.smallChart}>
             {income.length > 0 && (
@@ -76,6 +76,7 @@ const YearlyCharts = ({
           <div className={styles.chart}>
             <CategoryTrendsLineGraph
               expenses={expenses}
+              categoryColors={categoryColors}
             ></CategoryTrendsLineGraph>
           </div>
         </div>

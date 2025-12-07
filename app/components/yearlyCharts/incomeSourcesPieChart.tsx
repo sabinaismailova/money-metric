@@ -4,7 +4,7 @@ import { Chart as ChartJS, ArcElement, Tooltip, Legend } from "chart.js";
 
 ChartJS.register(ArcElement, Tooltip, Legend);
 
-const IncomeSourcesPieChart = ({ income = [], categoryColors = []}) => {
+const IncomeSourcesPieChart = ({ income = [], categoryColors = [] }) => {
   const colors = [
     "rgba(255, 99, 132, 1)",
     "rgba(54, 162, 235, 1)",
@@ -15,9 +15,7 @@ const IncomeSourcesPieChart = ({ income = [], categoryColors = []}) => {
   ];
 
   const categoryTotals = new Map();
-  const colorMap = new Map(
-    categoryColors.map(c => [c.category, c.color])
-  );
+  const colorMap = new Map(categoryColors.map((c) => [c.category, c.color]));
 
   income.forEach((tx, i) => {
     categoryTotals.set(
@@ -49,9 +47,8 @@ const IncomeSourcesPieChart = ({ income = [], categoryColors = []}) => {
       tooltip: {
         callbacks: {
           title: function (tooltipItems) {
-            const date = tooltipItems[0].parsed.x;
-            const day = new Date(date).toDateString();
-            return `${day}`;
+            const category = tooltipItems[0].label;
+            return `${category}`;
           },
         },
       },
@@ -60,15 +57,7 @@ const IncomeSourcesPieChart = ({ income = [], categoryColors = []}) => {
     },
   };
 
-  return (
-    <>
-      {income.length > 0 ? (
-        <Doughnut data={chartData} options={options} />
-      ) : (
-        <></>
-      )}
-    </>
-  );
+  return <Doughnut data={chartData} options={options} />;
 };
 
 export default IncomeSourcesPieChart;

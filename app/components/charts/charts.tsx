@@ -15,6 +15,7 @@ const Charts = ({
   selectedMonth = 0,
   selectedYear = 0,
   mode = "",
+  categoryColors = [],
 }) => {
   const [userSummary, setUserSummary] = useState({});
 
@@ -31,7 +32,7 @@ const Charts = ({
           throw new Error(`HTTP error! status: ${response.status}`);
         }
         const summary = await response.json();
-        console.log("summary: ", summary)
+        console.log("summary: ", summary);
         setUserSummary(summary);
       } catch (err) {
         console.log(err);
@@ -39,7 +40,7 @@ const Charts = ({
     }
 
     fetchUserSummary();
-  }, [selectedMonth, selectedYear]);
+  }, []);
 
   const expenses = transactions.filter((tx) => tx.type === "Expense");
 
@@ -62,7 +63,10 @@ const Charts = ({
           <div className={styles.chartGroup}>
             {expenses.length > 0 && (
               <div className={styles.chart}>
-                <DonutChart expenses={expenses} />
+                <DonutChart
+                  expenses={expenses}
+                  categoryColors={categoryColors}
+                />
               </div>
             )}
             <div className={styles.cardChart}>
@@ -108,7 +112,7 @@ const Charts = ({
             </div>
             {income.length > 0 && (
               <div className={styles.chart}>
-                <BarGraphY income={income}></BarGraphY>
+                <BarGraphY income={income} categoryColors={categoryColors}></BarGraphY>
               </div>
             )}
           </div>

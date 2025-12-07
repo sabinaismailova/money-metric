@@ -23,7 +23,7 @@ ChartJS.register(
   Legend
 );
 
-const CategoryTrendsLineGraph = ({ expenses = [] }) => {
+const CategoryTrendsLineGraph = ({ expenses = [], categoryColors = [] }) => {
   const months = [
     "Jan",
     "Feb",
@@ -38,6 +38,8 @@ const CategoryTrendsLineGraph = ({ expenses = [] }) => {
     "Nov",
     "Dec",
   ];
+
+  const colorMap = new Map(categoryColors.map((c) => [c.category, c.color]));
 
   function getCategoryTrends(transactions: []) {
     const categories = [...new Set(transactions.map((t) => t.category))];
@@ -75,8 +77,8 @@ const CategoryTrendsLineGraph = ({ expenses = [] }) => {
     datasets: categories.map((category, index) => ({
       label: category,
       data: monthlyCategoryTrends.get(category),
-      borderColor: colors[index % colors.length],
-      backgroundColor: colors[index % colors.length],
+      borderColor: colorMap.get(category),
+      backgroundColor: colorMap.get(category),
       tension: 0.3,
       pointRadius: 4,
       borderWidth: 2,
