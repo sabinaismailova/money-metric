@@ -8,6 +8,7 @@ interface TopnavbarProps {
   activeTab: String;
   handleActiveTabChange: (e: any) => void;
   categoryColors: [];
+  typeColors: [];
 }
 
 const Topnavbar: React.FC<TopnavbarProps> = ({
@@ -16,10 +17,13 @@ const Topnavbar: React.FC<TopnavbarProps> = ({
   activeTab,
   handleActiveTabChange,
   categoryColors,
+  typeColors,
 }) => {
   const [settingsOpen, setSettingsOpen] = useState(false);
   const colors = new Map(categoryColors.map((c) => [c.category, c.color]));
   const [colorMap, setColorMap] = useState(colors);
+  const typeColor = new Map(typeColors.map((t) => [t.type, t.color]));
+  const [typeColorMap, setTypeColorMap] = useState(typeColor);
 
   const isEqual = (m1: Map<string, string>, m2: Map<string, string>) =>
     m1.size === m2.size && [...m1].every(([k, v]) => m2.get(k) === v);
@@ -30,33 +34,60 @@ const Topnavbar: React.FC<TopnavbarProps> = ({
     setColorMap(updated);
   };
 
+  const handleTypeColorChange = (type: string, newColor: string) => {
+    const updated = new Map(typeColorMap);
+    updated.set(type, newColor);
+    setTypeColorMap(updated);
+  };
+
   const handleSettingsClick = () => {
     setColorMap(colors);
+    setTypeColorMap(typeColor);
     setSettingsOpen(true);
   };
 
   const saveColors = async () => {
-    const payload = Array.from(colorMap).map(([category, color]) => ({
+    const categoriesPayload = Array.from(colorMap).map(([category, color]) => ({
       category,
       color,
     }));
+    const typesPayload = Array.from(typeColorMap).map(([type, color]) => ({
+      type,
+      color,
+    }));
 
-    await fetch(
-      `${process.env.NEXT_PUBLIC_BACKEND_URL}/api/categoryColors/update`,
-      {
-        method: "PUT",
-        credentials: "include",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({ updates: payload }),
-      }
-    );
+    if (!isEqual(colors, colorMap)) {
+      await fetch(
+        `${process.env.NEXT_PUBLIC_BACKEND_URL}/api/categoryColors/update`,
+        {
+          method: "PUT",
+          credentials: "include",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({ updates: categoriesPayload }),
+        }
+      );
+    }
+    if (!isEqual(typeColor, typeColorMap)) {
+      await fetch(
+        `${process.env.NEXT_PUBLIC_BACKEND_URL}/api/transactionTypeColors/update`,
+        {
+          method: "PUT",
+          credentials: "include",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({ updates: typesPayload }),
+        }
+      );
+    }
 
     setSettingsOpen(false);
   };
 
   const categories = Array.from(colorMap.keys());
+  const types = Array.from(typeColor.keys());
 
   return (
     <div className={styles.topnavbar}>
@@ -87,8 +118,9 @@ const Topnavbar: React.FC<TopnavbarProps> = ({
       {settingsOpen && (
         <div className={styles.settingsBackdrop}>
           <div className={styles.settings}>
-            <h3 className={styles.heading}>Category Colors</h3>
+            <h3 className={styles.heading}>Settings</h3>
 
+            <h4 className={styles.subheading}>Category Colors</h4>
             <div className={styles.categoryColorsList}>
               {categories.map((category) => (
                 <div key={category} className={styles.categoryColor}>
@@ -105,16 +137,33 @@ const Topnavbar: React.FC<TopnavbarProps> = ({
                 </div>
               ))}
             </div>
+            <h4 className={styles.subheading}>Transaction Type Colors</h4>
+            <div className={styles.categoryColorsList}>
+              {types.map((type) => (
+                <div key={type} className={styles.categoryColor}>
+                  <span>{type}</span>
+                  <label>
+                    <input
+                      type="color"
+                      value={typeColorMap.get(type) || "#ffffff"}
+                      onChange={(e) =>
+                        handleTypeColorChange(type, e.target.value)
+                      }
+                    />
+                  </label>
+                </div>
+              ))}
+            </div>
 
-            {!isEqual(colors, colorMap) && (
-              <button className={styles.saveButton} onClick={saveColors}>
-                Save
-              </button>
-            )}
+            {(!isEqual(colors, colorMap) || !isEqual(typeColor, typeColorMap)) && (
+                <button className={styles.saveButton} onClick={saveColors}>
+                  Save
+                </button>
+              )}
             <button
               className={styles.closeButton}
               onClick={() => {
-                setSettingsOpen(false), setColorMap(colors);
+                setSettingsOpen(false), setColorMap(colors), setTypeColorMap(typeColor);
               }}
             >
               Close

@@ -31,9 +31,17 @@
 }
 
 .heading {
-  font-weight: bold;
+  font-weight: bolder;
   font-size: large;
   margin-bottom: 1em;
+}
+
+.subheading {
+    display: flex;
+    justify-content: start;
+    font-weight: bold;
+    font-size: medium;
+    margin-bottom: 1em;
 }
 
 .yearPickerBackdrop,

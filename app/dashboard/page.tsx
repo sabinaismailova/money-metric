@@ -15,6 +15,7 @@ export default function DashboardPage() {
   const [transactionsError, setTransactionsError] = useState(null);
   const [yearlyTransactions, setYearlyTransactions] = useState([]);
   const [categoryColors, setCategoryColors] = useState([]);
+  const [typeColors, setTypeColors] = useState([]);
   const [activeTab, setActiveTab] = useState("charts");
   const [mode, setMode] = useState<"monthly" | "yearly">("monthly");
   const [userYears, setUserYears] = useState([]);
@@ -127,9 +128,9 @@ export default function DashboardPage() {
     async function fetchCategoryColors() {
       const res = await fetch(
         `${process.env.NEXT_PUBLIC_BACKEND_URL}/api/categoryColors/`,
-        { 
-          method: "GET", 
-          credentials: "include" 
+        {
+          method: "GET",
+          credentials: "include",
         }
       );
 
@@ -139,6 +140,23 @@ export default function DashboardPage() {
 
     fetchCategoryColors();
   }, [categoryColors]);
+
+  useEffect(() => {
+    async function fetchTransactionTypeColors() {
+      const res = await fetch(
+        `${process.env.NEXT_PUBLIC_BACKEND_URL}/api/transactionTypeColors/`,
+        {
+          method: "GET",
+          credentials: "include",
+        }
+      );
+
+      const data = await res.json();
+      setTypeColors(data);
+    }
+
+    fetchTransactionTypeColors();
+  }, [typeColors]);
 
   if (!user) return <p>Loading dashboard...</p>;
 
@@ -167,6 +185,7 @@ export default function DashboardPage() {
           activeTab={activeTab}
           handleActiveTabChange={handleActiveTabChange}
           categoryColors={categoryColors}
+          typeColors={typeColors}
         />
         {activeTab === "charts" ? (
           mode == "monthly" ? (
