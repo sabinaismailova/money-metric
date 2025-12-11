@@ -41,7 +41,7 @@ const Charts = ({
     }
 
     fetchUserSummary();
-  }, []);
+  }, [selectedMonth, selectedYear]);
 
   const expenses = transactions.filter((tx) => tx.type === "Expense");
 
