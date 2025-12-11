@@ -195,6 +195,7 @@ export default function DashboardPage() {
               selectedYear={selectedYear}
               mode={mode}
               categoryColors={categoryColors}
+              typeColors={typeColors}
             ></Charts>
           ) : (
             <YearlyCharts
@@ -203,6 +204,7 @@ export default function DashboardPage() {
               selectedYear={selectedYear}
               mode={mode}
               categoryColors={categoryColors}
+              typeColors={typeColors}
             ></YearlyCharts>
           )
         ) : mode == "monthly" ? (

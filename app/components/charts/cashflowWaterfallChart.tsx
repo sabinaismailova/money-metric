@@ -17,6 +17,8 @@ const CashflowWaterfallChart = ({
   expenses = [],
   selectedMonth = 0,
   selectedYear = 0,
+  incomeColor = "",
+  expenseColor = "",
 }) => {
   let [transactions, setTransactions] = useState([]);
 
@@ -67,7 +69,7 @@ const CashflowWaterfallChart = ({
 
   const visibleValues = [startTotal, incomeTotal, -expenseTotal, endingBalance];
 
-  const backgroundColors = ["#4fd1c5", "#4fd1c5", "#f87171", "#60a5fa"];
+  const backgroundColors = ["#ec8836", `${incomeColor}`, `${expenseColor}`, "#60a5fa"];
 
   const data = {
     labels,

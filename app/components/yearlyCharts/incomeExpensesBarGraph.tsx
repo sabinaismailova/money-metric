@@ -18,7 +18,7 @@ ChartJS.register(
   Legend
 );
 
-const IncomeExpensesBarGraph = ({ income = [], expenses = [] }) => {
+const IncomeExpensesBarGraph = ({ income = [], expenses = [], incomeColor = "", expenseColor = "" }) => {
   const months = [
     "Jan",
     "Feb",
@@ -66,12 +66,12 @@ const IncomeExpensesBarGraph = ({ income = [], expenses = [] }) => {
       {
         label: "Income",
         data: monthlyIncomeExpenses.map((m) => m.income),
-        backgroundColor: "rgba(75, 192, 192, 1)",
+        backgroundColor: incomeColor,
       },
       {
         label: "Expenses",
         data: monthlyIncomeExpenses.map((m) => m.expenses),
-        backgroundColor: "rgba(255, 99, 132, 1)",
+        backgroundColor: expenseColor,
       },
     ],
   };

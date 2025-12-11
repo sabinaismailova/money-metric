@@ -2,7 +2,7 @@
 import { useState, useEffect } from "react";
 import styles from "./charts.module.css";
 
-const AvailableBalanceCard = ({ selectedMonth = 0, selectedYear = 0 }) => {
+const AvailableBalanceCard = ({ selectedMonth = 0, selectedYear = 0, incomeColor = "", expenseColor = "" }) => {
   let [transactions, setTransactions] = useState([]);
 
   useEffect(() => {
@@ -39,10 +39,12 @@ const AvailableBalanceCard = ({ selectedMonth = 0, selectedYear = 0 }) => {
 
   const availableBalance = incomeTotal - expensesTotal;
 
+  const color = availableBalance<0?expenseColor:incomeColor
+
   return (
     <div className={styles.card} style={{ backgroundColor: `#1d273b` }}>
       <h3 style={{ fontSize: 16, fontWeight: 'bold'}}>Available Balance</h3>
-      <span className={styles.amount} style={{ paddingTop: 8, fontSize: 40, color: 'rgb(75, 192, 192)'}}>
+      <span className={styles.amount} style={{ paddingTop: 8, fontSize: 40, color: color, }}>
         ${availableBalance.toFixed(2)}
       </span>
     </div>

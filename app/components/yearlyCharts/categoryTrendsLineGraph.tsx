@@ -78,7 +78,7 @@ const CategoryTrendsLineGraph = ({ expenses = [], categoryColors = [] }) => {
       label: category,
       data: monthlyCategoryTrends.get(category),
       borderColor: colorMap.get(category),
-      backgroundColor: colorMap.get(category),
+      backgroundColor: colorMap.get(category)+'40',
       tension: 0.3,
       pointRadius: 4,
       borderWidth: 2,

@@ -13,6 +13,7 @@ const YearlyCharts = ({
   selectedYear = 0,
   mode = "",
   categoryColors = [],
+  typeColors = [],
 }) => {
   const [userSummary, setUserSummary] = useState({});
 
@@ -42,6 +43,10 @@ const YearlyCharts = ({
 
   const income = transactions.filter((tx) => tx.type === "Income");
 
+  const incomeColor = typeColors.filter((t) => t.type === "Income")[0]?.color;
+
+  const expenseColor = typeColors.filter((t) => t.type === "Expense")[0]?.color;
+
   return (
     <div
       style={{
@@ -60,19 +65,24 @@ const YearlyCharts = ({
             <IncomeExpensesBarGraph
               income={income}
               expenses={expenses}
+              incomeColor={incomeColor}
+              expenseColor={expenseColor}
             ></IncomeExpensesBarGraph>
           </div>
           <div className={styles.smallChart}>
-            <CategoryRanking expenses={expenses} categoryColors={categoryColors}></CategoryRanking>
+            <CategoryRanking
+              expenses={expenses}
+              categoryColors={categoryColors}
+            ></CategoryRanking>
           </div>
-          <div className={styles.smallChart}>
-            {income.length > 0 && (
+          {income.length > 0 && (
+            <div className={styles.smallChart}>
               <IncomeSourcesPieChart
                 income={income}
                 categoryColors={categoryColors}
               ></IncomeSourcesPieChart>
-            )}
-          </div>
+            </div>
+          )}
           <div className={styles.chart}>
             <CategoryTrendsLineGraph
               expenses={expenses}

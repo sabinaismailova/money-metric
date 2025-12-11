@@ -24,7 +24,7 @@ ChartJS.register(
   Legend
 );
 
-const LineChart = ({ month = 0, income = [], expenses = [] }) => {
+const LineChart = ({ month = 0, income = [], expenses = [], incomeColor = "", expenseColor = ""}) => {
   const months = [
     "January",
     "February",
@@ -79,16 +79,16 @@ const LineChart = ({ month = 0, income = [], expenses = [] }) => {
       {
         label: "Income ($)",
         data: incomePoints,
-        borderColor: "rgba(75, 192, 192, 1)",
-        backgroundColor: "rgba(75, 192, 192, 0.2)",
+        borderColor: incomeColor,
+        backgroundColor: incomeColor+'40',
         tension: 0.3,
         pointRadius: 4,
       },
       {
         label: "Expenses ($)",
         data: expensePoints,
-        borderColor: "rgba(255, 99, 132, 1)",
-        backgroundColor: "rgba(255, 99, 132, 0.2)",
+        borderColor: expenseColor,
+        backgroundColor: expenseColor+'40',
         tension: 0.3,
         pointRadius: 4,
       },

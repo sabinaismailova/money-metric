@@ -16,6 +16,7 @@ const Charts = ({
   selectedYear = 0,
   mode = "",
   categoryColors = [],
+  typeColors = [],
 }) => {
   const [userSummary, setUserSummary] = useState({});
 
@@ -46,6 +47,10 @@ const Charts = ({
 
   const income = transactions.filter((tx) => tx.type === "Income");
 
+  const incomeColor = (typeColors.filter((t) => t.type === "Income"))[0]?.color;
+
+  const expenseColor = (typeColors.filter((t) => t.type === "Expense"))[0]?.color;
+
   return (
     <div
       style={{
@@ -75,14 +80,14 @@ const Charts = ({
                   <MiniTotalDisplayCard
                     title="Expenses"
                     transactions={expenses}
-                    lineColor="rgb(255, 99, 132)"
+                    lineColor={expenseColor}
                   />
                 )}
                 {income.length > 1 && (
                   <MiniTotalDisplayCard
                     title="Income"
                     transactions={income}
-                    lineColor="rgb(75, 192, 192)"
+                    lineColor={incomeColor}
                   />
                 )}
               </div>
@@ -93,6 +98,8 @@ const Charts = ({
                 expenses={expenses}
                 selectedMonth={selectedMonth}
                 selectedYear={selectedYear}
+                incomeColor={incomeColor}
+                expenseColor={expenseColor}
               />
             </div>
             <div className={styles.lineChart}>
@@ -100,6 +107,8 @@ const Charts = ({
                 month={selectedMonth}
                 income={income}
                 expenses={expenses}
+                incomeColor={incomeColor}
+                expenseColor={expenseColor}
               ></LineChart>
             </div>
             <div className={styles.lineChart}>
@@ -121,6 +130,8 @@ const Charts = ({
               <AvailableBalanceCard
                 selectedMonth={selectedMonth}
                 selectedYear={selectedYear}
+                incomeColor={incomeColor}
+                expenseColor={expenseColor}
               />
             </div>
             <div className={styles.chatbotContainer}>
