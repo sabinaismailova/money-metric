@@ -17,11 +17,11 @@ export default function DashboardPage() {
   const [categoryColors, setCategoryColors] = useState([]);
   const [typeColors, setTypeColors] = useState([]);
   const [activeTab, setActiveTab] = useState("charts");
-  const [mode, setMode] = useState<"monthly" | "yearly">("monthly");
+  const searchParams = useSearchParams();
+  const [mode, setMode] = useState<string>(searchParams.get("view")||"monthly");
   const [userYears, setUserYears] = useState([]);
 
   const router = useRouter();
-  const searchParams = useSearchParams();
 
   const today = new Date();
 
@@ -177,6 +177,7 @@ export default function DashboardPage() {
         selectedMonth={selectedMonth}
         availableYears={userYears}
         updateSelection={updateSelection}
+        mode={mode}
       ></Sidenavbar>
       <div className={styles.content}>
         <Topnavbar

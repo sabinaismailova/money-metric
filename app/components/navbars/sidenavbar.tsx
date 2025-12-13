@@ -7,6 +7,7 @@ interface SidenavbarProps {
   selectedMonth: Number;
   availableYears: number[];
   updateSelection: (month: any, year: any, view: any) => void;
+  mode: string|undefined;
 }
 
 const Sidenavbar: React.FC<SidenavbarProps> = ({
@@ -14,9 +15,10 @@ const Sidenavbar: React.FC<SidenavbarProps> = ({
   selectedMonth,
   availableYears,
   updateSelection,
+  mode,
 }) => {
   const [yearPickerOpen, setYearPickerOpen] = useState(false);
-  const [isActive, setIsActive] = useState(false);
+  const [isActive, setIsActive] = useState(mode=="yearly");
 
   const months = [
     "Jan",
