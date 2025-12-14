@@ -37,11 +37,11 @@
 }
 
 .subheading {
-    display: flex;
-    justify-content: start;
-    font-weight: bold;
-    font-size: medium;
-    margin-bottom: 1em;
+  display: flex;
+  justify-content: start;
+  font-weight: bold;
+  font-size: medium;
+  margin-bottom: 1em;
 }
 
 .yearPickerBackdrop,
@@ -63,6 +63,25 @@
   min-width: 200px;
   max-width: 100%;
   text-align: center;
+}
+
+.logout {
+  background-color: #1d273b;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  padding: 1.5em;
+  padding-bottom: 0;
+  border-radius: 12px;
+  min-width: 200px;
+  max-width: 100%;
+  text-align: center;
+}
+
+.buttons {
+  display: flex;
+  justify-content: center;
+  padding: 1em;
 }
 
 .yearList {

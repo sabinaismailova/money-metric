@@ -20,6 +20,7 @@ const Topnavbar: React.FC<TopnavbarProps> = ({
   typeColors,
 }) => {
   const [settingsOpen, setSettingsOpen] = useState(false);
+  const [logout, setLogout] = useState(false);
   const colors = new Map(categoryColors.map((c) => [c.category, c.color]));
   const [colorMap, setColorMap] = useState(colors);
   const typeColor = new Map(typeColors.map((t) => [t.type, t.color]));
@@ -113,7 +114,9 @@ const Topnavbar: React.FC<TopnavbarProps> = ({
       <button id="settings" onClick={handleSettingsClick}>
         Settings
       </button>
-      <button onClick={handleLogout}>Logout</button>
+      <button id="logout" onClick={() => setLogout(true)}>
+        Logout
+      </button>
 
       {settingsOpen && (
         <div className={styles.settingsBackdrop}>
@@ -155,19 +158,46 @@ const Topnavbar: React.FC<TopnavbarProps> = ({
               ))}
             </div>
 
-            {(!isEqual(colors, colorMap) || !isEqual(typeColor, typeColorMap)) && (
-                <button className={styles.saveButton} onClick={saveColors}>
-                  Save
-                </button>
-              )}
+            {(!isEqual(colors, colorMap) ||
+              !isEqual(typeColor, typeColorMap)) && (
+              <button className={styles.saveButton} onClick={saveColors}>
+                Save
+              </button>
+            )}
             <button
               className={styles.closeButton}
               onClick={() => {
-                setSettingsOpen(false), setColorMap(colors), setTypeColorMap(typeColor);
+                setSettingsOpen(false),
+                  setColorMap(colors),
+                  setTypeColorMap(typeColor);
               }}
             >
               Close
             </button>
+          </div>
+        </div>
+      )}
+
+      {logout && (
+        <div className={styles.settingsBackdrop}>
+          <div className={styles.logout}>
+            <h3 className={styles.heading}>Confirm Log out</h3>
+
+            <span>Are you sure you want to log out? </span>
+
+            <div className={styles.buttons}>
+              <button className={styles.saveButton} onClick={handleLogout}>
+                Log out
+              </button>
+              <button
+                className={styles.closeButton}
+                onClick={() => {
+                  setLogout(false);
+                }}
+              >
+                Close
+              </button>
+            </div>
           </div>
         </div>
       )}
