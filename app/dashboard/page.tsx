@@ -19,14 +19,19 @@ export default function DashboardPage() {
   const [error, setError] = useState<string | null>(null);
   const [transactions, setTransactions] = useState<Transaction[]>();
   const [transactionsError, setTransactionsError] = useState(null);
-  const [yearlyTransactions, setYearlyTransactions] = useState([]);
+  const [yearlyTransactions, setYearlyTransactions] = useState<Transaction[]>();
   const [categoryColors, setCategoryColors] = useState<CategoryColor[]>();
   const [typeColors, setTypeColors] = useState<TransactionTypeColor[]>();
   const [activeTab, setActiveTab] = useState("charts");
   const searchParams = useSearchParams();
-  const [mode, setMode] = useState<string>(
-    searchParams.get("view") || "monthly"
-  );
+  const [mode, setMode] = useState<string>("monthly");
+
+  useEffect(() => {
+    const searchParams = new URLSearchParams(window.location.search);
+    const view = searchParams.get("view");
+    if (view) setMode(view);
+  }, []);
+
   const [userYears, setUserYears] = useState([]);
 
   const router = useRouter();
