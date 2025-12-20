@@ -1,6 +1,6 @@
 "use client";
 import { useEffect, useState } from "react";
-import DonutChart from "./donutChart";
+import DonutChart from "./doughnutChart";
 import LineChart from "./lineChart";
 import BarGraphY from "./barGraphY";
 import MiniTotalDisplayCard from "./miniTotalDisplayCard";
@@ -9,16 +9,31 @@ import styles from "./charts.module.css";
 import AvailableBalanceChart from "./availableBalanceChart";
 import CashflowWaterfallChart from "./cashflowWaterfallChart";
 import InsightsChatbot from "../chatbot/insightsChatbot";
+import {
+  CategoryColor,
+  Transaction,
+  TransactionTypeColor,
+  UserSummary,
+} from "@/app/types";
 
-const Charts = ({
-  transactions = [],
-  selectedMonth = 0,
-  selectedYear = 0,
-  mode = "",
-  categoryColors = [],
-  typeColors = [],
+interface ChartsProps {
+  transactions: Transaction[] | undefined;
+  selectedMonth: number;
+  selectedYear: number;
+  mode: string;
+  categoryColors: CategoryColor[] | undefined;
+  typeColors: TransactionTypeColor[] | undefined;
+}
+
+const Charts: React.FC<ChartsProps> = ({
+  transactions,
+  selectedMonth,
+  selectedYear,
+  mode,
+  categoryColors,
+  typeColors,
 }) => {
-  const [userSummary, setUserSummary] = useState({});
+  const [userSummary, setUserSummary] = useState<UserSummary>();
 
   useEffect(() => {
     async function fetchUserSummary() {
@@ -43,13 +58,13 @@ const Charts = ({
     fetchUserSummary();
   }, [selectedMonth, selectedYear]);
 
-  const expenses = transactions.filter((tx) => tx.type === "Expense");
+  const expenses = transactions?.filter((tx) => tx.type === "Expense");
 
-  const income = transactions.filter((tx) => tx.type === "Income");
+  const income = transactions?.filter((tx) => tx.type === "Income");
 
-  const incomeColor = (typeColors.filter((t) => t.type === "Income"))[0]?.color;
+  const incomeColor = typeColors?.filter((t) => t.type === "Income")[0].color;
 
-  const expenseColor = (typeColors.filter((t) => t.type === "Expense"))[0]?.color;
+  const expenseColor = typeColors?.filter((t) => t.type === "Expense")[0].color;
 
   return (
     <div
@@ -63,10 +78,10 @@ const Charts = ({
         overflowY: "scroll",
       }}
     >
-      {transactions.length > 0 ? (
+      {transactions && transactions.length>0 ? (
         <div className={styles.charts}>
           <div className={styles.chartGroup}>
-            {expenses.length > 0 && (
+            {expenses && expenses.length > 0 && (
               <div className={styles.chart}>
                 <DonutChart
                   expenses={expenses}
@@ -76,14 +91,14 @@ const Charts = ({
             )}
             <div className={styles.cardChart}>
               <div className={styles.miniCardsContainer}>
-                {expenses.length > 1 && (
+                {expenses && expenses.length > 1 && (
                   <MiniTotalDisplayCard
                     title="Expenses"
                     transactions={expenses}
                     lineColor={expenseColor}
                   />
                 )}
-                {income.length > 1 && (
+                {income && income.length > 1 && (
                   <MiniTotalDisplayCard
                     title="Income"
                     transactions={income}
@@ -92,16 +107,18 @@ const Charts = ({
                 )}
               </div>
             </div>
-            <div className={styles.chart}>
-              <CashflowWaterfallChart
-                income={income}
-                expenses={expenses}
-                selectedMonth={selectedMonth}
-                selectedYear={selectedYear}
-                incomeColor={incomeColor}
-                expenseColor={expenseColor}
-              />
-            </div>
+            {expenses && expenses.length > 1 && income && income.length > 1 && (
+              <div className={styles.chart}>
+                <CashflowWaterfallChart
+                  income={income}
+                  expenses={expenses}
+                  selectedMonth={selectedMonth}
+                  selectedYear={selectedYear}
+                  incomeColor={incomeColor}
+                  expenseColor={expenseColor}
+                />
+              </div>
+            )}
             <div className={styles.lineChart}>
               <LineChart
                 month={selectedMonth}
@@ -119,9 +136,12 @@ const Charts = ({
                 selectedYear={selectedYear}
               ></AvailableBalanceChart>
             </div>
-            {income.length > 0 && (
+            {income && income.length > 0 && (
               <div className={styles.chart}>
-                <BarGraphY income={income} categoryColors={categoryColors}></BarGraphY>
+                <BarGraphY
+                  income={income}
+                  categoryColors={categoryColors}
+                ></BarGraphY>
               </div>
             )}
           </div>

@@ -3,8 +3,8 @@ import styles from "./navbars.module.css";
 import React, { Dispatch, SetStateAction, useState } from "react";
 
 interface SidenavbarProps {
-  selectedYear: Number;
-  selectedMonth: Number;
+  selectedYear: number;
+  selectedMonth: number;
   availableYears: number[];
   updateSelection: (month: any, year: any, view: any) => void;
   mode: string|undefined;
@@ -35,7 +35,7 @@ const Sidenavbar: React.FC<SidenavbarProps> = ({
     "Dec",
   ];
 
-  function handleYearSelect(year) {
+  function handleYearSelect(year: number) {
     setYearPickerOpen(false);
     updateSelection(selectedMonth, year, "yearly");
     setIsActive(true);

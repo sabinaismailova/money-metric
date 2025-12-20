@@ -1,9 +1,10 @@
 "use client";
 import { useState, useEffect } from "react";
 import styles from "./charts.module.css";
+import { Transaction } from "@/app/types";
 
 const AvailableBalanceCard = ({ selectedMonth = 0, selectedYear = 0, incomeColor = "", expenseColor = "" }) => {
-  let [transactions, setTransactions] = useState([]);
+  let [transactions, setTransactions] = useState<Transaction[]>();
 
   useEffect(() => {
     async function fetchTransactions() {
@@ -30,22 +31,22 @@ const AvailableBalanceCard = ({ selectedMonth = 0, selectedYear = 0, incomeColor
   const cutoffDate = new Date(selectedYear, selectedMonth + 1, 0);
 
   const incomeTotal = transactions
-    .filter((tx) => tx.type === "Income" && new Date(tx.date) <= cutoffDate)
-    .reduce((sum, tx) => sum + tx.amount, 0);
+    ?.filter((tx: Transaction) => tx.type === "Income" && new Date(tx.date) <= cutoffDate)
+    .reduce((sum, tx: Transaction) => sum + tx.amount, 0);
 
   const expensesTotal = transactions
-    .filter((tx) => tx.type === "Expense" && new Date(tx.date) <= cutoffDate)
-    .reduce((sum, tx) => sum + tx.amount, 0);
+    ?.filter((tx: Transaction) => tx.type === "Expense" && new Date(tx.date) <= cutoffDate)
+    .reduce((sum, tx: Transaction) => sum + tx.amount, 0);
 
-  const availableBalance = incomeTotal - expensesTotal;
+  const availableBalance = incomeTotal && expensesTotal && incomeTotal - expensesTotal;
 
-  const color = availableBalance<0?expenseColor:incomeColor
+  const color = availableBalance && availableBalance<0?expenseColor:incomeColor
 
   return (
     <div className={styles.card} style={{ backgroundColor: `#1d273b` }}>
       <h3 style={{ fontSize: 16, fontWeight: 'bold'}}>Available Balance</h3>
       <span className={styles.amount} style={{ paddingTop: 8, fontSize: 40, color: color, }}>
-        ${availableBalance.toFixed(2)}
+        ${availableBalance && availableBalance.toFixed(2)}
       </span>
     </div>
   );

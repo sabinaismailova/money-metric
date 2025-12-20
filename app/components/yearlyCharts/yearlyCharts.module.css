@@ -18,7 +18,7 @@
   border-radius: 12px;
   padding: 0.5em;
   margin: 0.5em;
-  width: 32em;
+  width: 29em;
   height: 15em;
 }
 
@@ -76,6 +76,9 @@
   .chart {
     width: 100%;
     height: fit-content;
+  }
+  .smallChart {
+    width: 100%;
   }
 }
 

@@ -7,18 +7,29 @@ import {
   LinearScale,
   Tooltip,
   Legend,
+  TooltipItem,
 } from "chart.js";
+import { Transaction } from "@/app/types";
 import { useState, useEffect } from "react";
 
 ChartJS.register(BarElement, CategoryScale, LinearScale, Tooltip, Legend);
 
-const CashflowWaterfallChart = ({
-  income = [],
-  expenses = [],
-  selectedMonth = 0,
-  selectedYear = 0,
-  incomeColor = "",
-  expenseColor = "",
+interface CashflowWaterfallChartProps {
+  income: Transaction[]|undefined;
+  expenses: Transaction[]|undefined;
+  selectedMonth: number;
+  selectedYear: number;
+  incomeColor: string|undefined;
+  expenseColor: string|undefined;
+}
+
+const CashflowWaterfallChart: React.FC<CashflowWaterfallChartProps> = ({
+  income,
+  expenses,
+  selectedMonth,
+  selectedYear,
+  incomeColor,
+  expenseColor,
 }) => {
   let [transactions, setTransactions] = useState([]);
 
@@ -47,29 +58,34 @@ const CashflowWaterfallChart = ({
   const cutoffDate = new Date(selectedYear, selectedMonth, 0);
 
   const prevTransactions = transactions.filter(
-    (tx) => new Date(tx.date) <= cutoffDate
+    (tx: Transaction) => new Date(tx.date) <= cutoffDate
   );
 
   let startTotal = 0;
 
-  prevTransactions.forEach((tx) => {
+  prevTransactions.forEach((tx: Transaction) => {
     const d = new Date(tx.date).getDate();
     const change = tx.type === "Income" ? tx.amount : -tx.amount;
     startTotal += change;
   });
 
-  const incomeTotal = income.reduce((a, b) => a + b.amount, 0);
-  const expenseTotal = expenses.reduce((a, b) => a + b.amount, 0);
+  const incomeTotal = income?.reduce((a, b) => a + b.amount, 0);
+  const expenseTotal = expenses?.reduce((a, b) => a + b.amount, 0);
 
-  const endingBalance = startTotal + incomeTotal - expenseTotal;
+  const endingBalance = incomeTotal && expenseTotal && startTotal + incomeTotal - expenseTotal;
 
   const labels = ["Start", "Income", "Expenses", "End"];
 
-  const invisibleBase = [0, startTotal, startTotal + incomeTotal, 0];
+  const invisibleBase = incomeTotal && [0, startTotal, startTotal + incomeTotal, 0];
 
-  const visibleValues = [startTotal, incomeTotal, -expenseTotal, endingBalance];
+  const visibleValues = expenseTotal && [startTotal, incomeTotal, - expenseTotal, endingBalance];
 
-  const backgroundColors = ["#ec8836", `${incomeColor}`, `${expenseColor}`, "#60a5fa"];
+  const backgroundColors = [
+    "#ec8836",
+    `${incomeColor}`,
+    `${expenseColor}`,
+    "#60a5fa",
+  ];
 
   const data = {
     labels,
@@ -101,8 +117,8 @@ const CashflowWaterfallChart = ({
       legend: { display: false },
       tooltip: {
         callbacks: {
-          label: (ctx) => {
-            const val = ctx.raw;
+          label: (ctx: TooltipItem<"bar">) => {
+            const val = ctx.raw as number;
             return (val >= 0 ? "+" : "") + val.toLocaleString();
           },
         },

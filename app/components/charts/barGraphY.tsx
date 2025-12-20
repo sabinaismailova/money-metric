@@ -7,8 +7,11 @@ import {
   Title,
   Tooltip,
   Legend,
+  TooltipItem,
+  ChartOptions,
 } from "chart.js";
 import styles from "./charts.module.css";
+import { Transaction, CategoryColor } from "@/app/types";
 
 ChartJS.register(
   CategoryScale,
@@ -19,11 +22,16 @@ ChartJS.register(
   Legend
 );
 
-const BarGraphY = ({ income = [], categoryColors = [] }) => {
-    const colorMap = new Map(categoryColors.map((c) => [c.category, c.color]))
+interface BarGraphYProps {
+  income: Transaction[]|undefined;
+  categoryColors: CategoryColor[]|undefined;
+}
+
+const BarGraphY: React.FC<BarGraphYProps> = ({ income, categoryColors }) => {
+  const colorMap = new Map(categoryColors?.map((c) => [c.category, c.color]));
   const incomeCategoryTotals = new Map();
 
-  income.forEach((tx) => {
+  income?.forEach((tx) => {
     incomeCategoryTotals.set(
       tx.category,
       (incomeCategoryTotals.get(tx.category) || 0) + tx.amount
@@ -45,7 +53,7 @@ const BarGraphY = ({ income = [], categoryColors = [] }) => {
 
   const sortedCategories = sorted.map((s) => s.category);
   const sortedPercentages = sorted.map((s) => s.pct);
-  const colors = sorted.map((s) => colorMap.get(s.category))
+  const colors = sorted.map((s) => colorMap.get(s.category));
 
   const data = {
     labels: sortedCategories,
@@ -60,7 +68,7 @@ const BarGraphY = ({ income = [], categoryColors = [] }) => {
     ],
   };
 
-  const options = {
+  const options: ChartOptions<"bar"> = {
     indexAxis: "y",
     responsive: true,
     maintainAspectRatio: false,
@@ -73,7 +81,7 @@ const BarGraphY = ({ income = [], categoryColors = [] }) => {
       },
       tooltip: {
         callbacks: {
-          label: (ctx) => `${ctx.parsed.x}%`,
+          label: (ctx: TooltipItem<"bar">) => `${ctx.parsed.x}%`,
         },
       },
     },

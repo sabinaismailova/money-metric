@@ -1,14 +1,24 @@
 "use client";
 import { Doughnut } from "react-chartjs-2";
-import { Chart as ChartJS, ArcElement, Tooltip, Legend } from "chart.js";
+import { Chart as ChartJS, ArcElement, Tooltip, Legend, ChartOptions, 
+    TooltipItem,} from "chart.js";
+import { Transaction, CategoryColor } from "@/app/types";
 
 ChartJS.register(ArcElement, Tooltip, Legend);
 
-const IncomeSourcesPieChart = ({ income = [], categoryColors = [] }) => {
-  const categoryTotals = new Map();
-  const colorMap = new Map(categoryColors.map((c) => [c.category, c.color]));
+interface IncomeSourcesPieChartProps {
+  income: Transaction[]|undefined;
+  categoryColors: CategoryColor[]|undefined;
+}
 
-  income.forEach((tx, i) => {
+const IncomeSourcesPieChart: React.FC<IncomeSourcesPieChartProps> = ({
+  income,
+  categoryColors,
+}) => {
+  const categoryTotals = new Map();
+  const colorMap = new Map(categoryColors?.map((c) => [c.category, c.color]));
+
+  income?.forEach((tx, i) => {
     categoryTotals.set(
       tx.category,
       (categoryTotals.get(tx.category) || 0) + tx.amount
@@ -31,13 +41,13 @@ const IncomeSourcesPieChart = ({ income = [], categoryColors = [] }) => {
     ],
   };
 
-  const options = {
+  const options: ChartOptions<"doughnut"> = {
     responsive: true,
     maintainAspectRatio: false,
     plugins: {
       tooltip: {
         callbacks: {
-          title: function (tooltipItems) {
+          title: function (tooltipItems: TooltipItem<"doughnut">[]) {
             const category = tooltipItems[0].label;
             return `${category}`;
           },

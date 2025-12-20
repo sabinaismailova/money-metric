@@ -7,7 +7,9 @@ import {
   LinearScale,
   CategoryScale,
   Tooltip,
+  ChartOptions,
 } from "chart.js";
+import { Transaction } from "@/app/types";
 import styles from "./charts.module.css";
 
 ChartJS.register(
@@ -18,15 +20,21 @@ ChartJS.register(
   Tooltip
 );
 
-const MiniTotalDisplayCard = ({
-  title = "",
-  transactions = [],
-  lineColor = "#2563eb",
+interface MiniTotalDisplayCardProps {
+  title: string;
+  transactions: Transaction[];
+  lineColor: string|undefined;
+}
+
+const MiniTotalDisplayCard: React.FC<MiniTotalDisplayCardProps> = ({
+  title,
+  transactions,
+  lineColor,
 }) => {
   const totalSpent = transactions.reduce((sum, t) => sum + t.amount, 0);
 
   const sorted = [...transactions].sort(
-    (a, b) => new Date(a.date) - new Date(b.date)
+    (a, b) => new Date(a.date).getTime() - new Date(b.date).getTime()
   );
 
   const chartData = {
@@ -45,7 +53,7 @@ const MiniTotalDisplayCard = ({
     ],
   };
 
-  const chartOptions = {
+  const chartOptions: ChartOptions<"line"> = {
     plugins: { legend: { display: false } },
     scales: {
       x: { display: false },

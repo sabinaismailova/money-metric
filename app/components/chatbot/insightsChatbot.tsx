@@ -2,15 +2,20 @@ import { useState } from "react";
 import styles from "./chatbot.module.css";
 import UpArrow from "./uparrow.svg";
 import Image from "next/image";
+import { UserSummary } from "@/app/types";
 
-const InsightsChatbot = ({ userSummary = {} }) => {
+interface InsightsChatbotProps {
+  userSummary: UserSummary|undefined;
+}
+
+const InsightsChatbot: React.FC<InsightsChatbotProps> = ({ userSummary }) => {
   const [input, setInput] = useState("");
   const [messages, setMessages] = useState<
     { role: "user" | "assistant"; text: string }[]
   >([]);
   const [loading, setLoading] = useState(false);
 
-  async function askQuestion(msg, year, month) {
+  async function askQuestion(msg: string, year: number|undefined, month: number|undefined) {
     const res = await fetch(
       `${process.env.NEXT_PUBLIC_BACKEND_URL}/api/chatbot/ask`,
       {
@@ -25,7 +30,7 @@ const InsightsChatbot = ({ userSummary = {} }) => {
     return data.answer;
   }
 
-  async function handleSubmit(e) {
+  async function handleSubmit(e: React.FormEvent<HTMLFormElement>) {
     e.preventDefault();
     if (!input.trim()) return;
 
@@ -38,8 +43,8 @@ const InsightsChatbot = ({ userSummary = {} }) => {
     try {
       const answer = await askQuestion(
         userMsg,
-        userSummary.year,
-        userSummary.month
+        userSummary?.year,
+        userSummary?.month
       );
       setMessages((prev) => [...prev, { role: "assistant", text: answer }]);
     } catch (err) {
@@ -60,7 +65,7 @@ const InsightsChatbot = ({ userSummary = {} }) => {
       </div>
       <div className={styles.chatbotMessages}>
         <div className={styles.chatbotMessageRow}>
-          <div className={styles.chatbotMessage}>{userSummary.summaryText}</div>
+          <div className={styles.chatbotMessage}>{userSummary?.summaryText}</div>
         </div>
         {messages.map((m, i) => (
           <div

@@ -1,8 +1,13 @@
 "use client";
+import { Transaction } from "@/app/types";
 import styles from "./transactions.module.css";
 import { useRouter } from "next/navigation";
 
-const Transactions = ({ transactions=[]}) => {
+interface TransactionsProps {
+  transactions: Transaction[] | undefined;
+}
+
+const Transactions: React.FC<TransactionsProps> = ({ transactions }) => {
   const router = useRouter();
 
   const handleAddTransaction = () => {
@@ -28,17 +33,19 @@ const Transactions = ({ transactions=[]}) => {
             <th className={styles.th}>Recurring</th>
             <th className={styles.th}>Recurrence Interval</th>
             <th className={styles.th}>Next recurrance</th>
-            </tr>
+          </tr>
         </thead>
         <tbody className={styles.tbody}>
-          {transactions.length === 0 ? (
+          {transactions && transactions.length == 0 ? (
             <tr className={styles.tr}>
               <td colSpan={6}>No transactions for this month.</td>
             </tr>
           ) : (
-            transactions.map((t) => (
+            transactions?.map((t: Transaction) => (
               <tr key={t._id} className={styles.tr}>
-                <td className={styles.td}>{new Date(t.date).toISOString().split("T")[0]}</td>
+                <td className={styles.td}>
+                  {new Date(t.date).toISOString().split("T")[0]}
+                </td>
                 <td className={styles.td}>{t.type}</td>
                 <td className={styles.td}>{t.category}</td>
                 <td className={styles.td}>${t.amount}</td>
@@ -47,7 +54,11 @@ const Transactions = ({ transactions=[]}) => {
                 {t.isRecurring ? (
                   <>
                     <td className={styles.td}>{t.recurrenceInterval}</td>
-                    <td className={styles.td}>{new Date(t.nextRecurrence).toISOString().split("T")[0]}</td>
+                    <td className={styles.td}>
+                      {t.nextRecurrence
+                        ? new Date(t.nextRecurrence).toISOString().split("T")[0]
+                        : null}
+                    </td>
                   </>
                 ) : (
                   <>
@@ -62,6 +73,6 @@ const Transactions = ({ transactions=[]}) => {
       </table>
     </div>
   );
-}
+};
 
-export default Transactions
+export default Transactions;

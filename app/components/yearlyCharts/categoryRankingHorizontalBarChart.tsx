@@ -7,7 +7,10 @@ import {
   Title,
   Tooltip,
   Legend,
+  ChartOptions,
+  ChartData,
 } from "chart.js";
+import { Transaction, CategoryColor } from "@/app/types";
 
 ChartJS.register(
   CategoryScale,
@@ -18,12 +21,20 @@ ChartJS.register(
   Legend
 );
 
-const CategoryRanking = ({ expenses = [], categoryColors = [] }) => {
-  const colorMap = new Map(categoryColors.map((c) => [c.category, c.color]));
+interface CategoryRankingProps {
+  expenses: Transaction[]|undefined;
+  categoryColors: CategoryColor[]|undefined;
+}
+
+const CategoryRanking: React.FC<CategoryRankingProps> = ({
+  expenses,
+  categoryColors,
+}) => {
+  const colorMap = new Map(categoryColors?.map((c) => [c.category, c.color]));
 
   const expensesCategoryTotals = new Map();
 
-  expenses.forEach((tx) => {
+  expenses?.forEach((tx: Transaction) => {
     expensesCategoryTotals.set(
       tx.category,
       (expensesCategoryTotals.get(tx.category) || 0) + tx.amount
@@ -44,23 +55,21 @@ const CategoryRanking = ({ expenses = [], categoryColors = [] }) => {
     .sort((a, b) => b.amount - a.amount);
 
   const sortedCategories = sorted.map((s) => s.category);
-  const sortedAmounts = sorted.map((s) => s.amount);
+  const sortedAmounts = sorted.map((s) => s.amount??0);
 
-  const data = {
+  const data: ChartData<"bar"> = {
     labels: sortedCategories,
     datasets: [
       {
         label: "% of Total Expenses",
         data: sortedAmounts,
-        backgroundColor: sortedCategories.map((cat) =>
-          colorMap.get(cat)
-        ),
+        backgroundColor: sortedCategories.map((cat) => colorMap.get(cat) || "#4bc0c0"),
         borderRadius: 8,
       },
     ],
   };
 
-  const options = {
+  const options: ChartOptions<"bar"> = {
     indexAxis: "y",
     responsive: true,
     maintainAspectRatio: false,
@@ -95,7 +104,7 @@ const CategoryRanking = ({ expenses = [], categoryColors = [] }) => {
   };
 
   return (
-    <>{expenses.length > 0 ? <Bar data={data} options={options} /> : <></>}</>
+    <Bar data={data} options={options} />
   );
 };
 

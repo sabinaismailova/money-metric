@@ -8,7 +8,10 @@ import {
   LineElement,
   Tooltip,
   Legend,
+  TooltipItem,
+  ChartOptions,
 } from "chart.js";
+import { Transaction } from "@/app/types";
 import { useEffect, useState } from "react";
 import styles from "./charts.module.css";
 
@@ -21,11 +24,18 @@ ChartJS.register(
   Legend
 );
 
-const AvailableBalanceChart = ({
-  income = [],
-  expenses = [],
-  selectedMonth = 0,
-  selectedYear = 0,
+interface AvailableBalanceChartProps {
+  income: Transaction[]|undefined;
+  expenses: Transaction[]|undefined;
+  selectedMonth: number;
+  selectedYear: number;
+}
+
+const AvailableBalanceChart: React.FC<AvailableBalanceChartProps> = ({
+  income,
+  expenses,
+  selectedMonth,
+  selectedYear,
 }) => {
   let [transactions, setTransactions] = useState([]);
 
@@ -54,12 +64,12 @@ const AvailableBalanceChart = ({
   const cutoffDate = new Date(selectedYear, selectedMonth, 0);
 
   const prevTransactions = transactions.filter(
-    (tx) => new Date(tx.date) <= cutoffDate
+    (tx: Transaction) => new Date(tx.date) <= cutoffDate
   );
 
   let startTotal = 0;
 
-  prevTransactions.forEach((tx) => {
+  prevTransactions.forEach((tx: Transaction) => {
     const d = new Date(tx.date).getDate();
     const change = tx.type === "Income" ? tx.amount : -tx.amount;
     startTotal += change;
@@ -67,7 +77,7 @@ const AvailableBalanceChart = ({
 
   const dailyNet = new Map();
 
-  income.forEach((tx) => {
+  income?.forEach((tx) => {
     const dateOnly = tx.date.split("T")[0];
     const localDate = new Date(`${dateOnly}T00:00:00`);
     const dayKey = localDate.getTime();
@@ -75,7 +85,7 @@ const AvailableBalanceChart = ({
     dailyNet.set(dayKey, current + tx.amount);
   });
 
-  expenses.forEach((tx) => {
+  expenses?.forEach((tx) => {
     const dateOnly = tx.date.split("T")[0];
     const localDate = new Date(`${dateOnly}T00:00:00`);
     const dayKey = localDate.getTime();
@@ -116,15 +126,15 @@ const AvailableBalanceChart = ({
     ],
   };
 
-  const options = {
+  const options: ChartOptions<"line"> = {
     responsive: true,
     maintainAspectRatio: false,
     plugins: {
       tooltip: {
         callbacks: {
-          title: function (tooltipItems) {
+          title: function (tooltipItems: TooltipItem<"line">[]) {
             const date = tooltipItems[0].parsed.x;
-            const day = new Date(date).toDateString();
+            const day = date && new Date(date).toDateString();
             return `${day}`;
           },
         },

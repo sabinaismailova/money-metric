@@ -9,8 +9,10 @@ import {
   Title,
   Tooltip,
   Legend,
+  ChartOptions,
 } from "chart.js";
 import "chartjs-adapter-date-fns";
+import { Transaction, CategoryColor } from "@/app/types";
 
 ChartJS.register(
   LineElement,
@@ -23,7 +25,15 @@ ChartJS.register(
   Legend
 );
 
-const CategoryTrendsLineGraph = ({ expenses = [], categoryColors = [] }) => {
+interface CategoryTrendsLineGraphProps {
+  expenses: Transaction[]|undefined;
+  categoryColors: CategoryColor[]|undefined;
+}
+
+const CategoryTrendsLineGraph: React.FC<CategoryTrendsLineGraphProps> = ({
+  expenses,
+  categoryColors,
+}) => {
   const months = [
     "Jan",
     "Feb",
@@ -39,10 +49,10 @@ const CategoryTrendsLineGraph = ({ expenses = [], categoryColors = [] }) => {
     "Dec",
   ];
 
-  const colorMap = new Map(categoryColors.map((c) => [c.category, c.color]));
+  const colorMap = new Map(categoryColors?.map((c) => [c.category, c.color]));
 
-  function getCategoryTrends(transactions: []) {
-    const categories = [...new Set(transactions.map((t) => t.category))];
+  function getCategoryTrends(transactions: Transaction[]|undefined) {
+    const categories = [...new Set(transactions?.map((t) => t.category))];
 
     const result = new Map();
 
@@ -50,8 +60,8 @@ const CategoryTrendsLineGraph = ({ expenses = [], categoryColors = [] }) => {
       result.set(category, Array(12).fill(0));
 
       transactions
-        .filter((t) => t.category === category)
-        .forEach((t) => {
+        ?.filter((t: Transaction) => t.category === category)
+        .forEach((t: Transaction) => {
           const m = new Date(t.date).getMonth();
           result.get(category)[m] += t.amount;
         });
@@ -78,14 +88,14 @@ const CategoryTrendsLineGraph = ({ expenses = [], categoryColors = [] }) => {
       label: category,
       data: monthlyCategoryTrends.get(category),
       borderColor: colorMap.get(category),
-      backgroundColor: colorMap.get(category)+'40',
+      backgroundColor: colorMap.get(category) + "40",
       tension: 0.3,
       pointRadius: 4,
       borderWidth: 2,
     })),
   };
 
-  const options = {
+  const options: ChartOptions<"line"> = {
     responsive: true,
     maintainAspectRatio: false,
     plugins: {
@@ -119,7 +129,7 @@ const CategoryTrendsLineGraph = ({ expenses = [], categoryColors = [] }) => {
   };
 
   return (
-    <>{expenses.length > 0 ? <Line data={data} options={options} /> : <></>}</>
+    <Line data={data} options={options} />
   );
 };
 

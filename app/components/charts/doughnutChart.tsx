@@ -1,15 +1,31 @@
 "use client";
 import { Doughnut } from "react-chartjs-2";
-import { Chart as ChartJS, ArcElement, Tooltip, Legend } from "chart.js";
+import {
+  Chart as ChartJS,
+  ArcElement,
+  Tooltip,
+  Legend,
+  ChartOptions,
+  TooltipItem
+} from "chart.js";
+import { Transaction, CategoryColor } from "@/app/types";
 import styles from "./charts.module.css";
 
 ChartJS.register(ArcElement, Tooltip, Legend);
 
-const DonutChart = ({ expenses = [], categoryColors }) => {
-  const colorMap = new Map(categoryColors.map((c)=> [c.category, c.color]))
+interface DonutChartProps {
+  expenses: Transaction[] | undefined;
+  categoryColors: CategoryColor[] | undefined;
+}
+
+const DonutChart: React.FC<DonutChartProps> = ({
+  expenses,
+  categoryColors,
+}) => {
+  const colorMap = new Map(categoryColors?.map((c) => [c.category, c.color]));
   const expensesTotals = new Map();
 
-  expenses.forEach((tx) => {
+  expenses?.forEach((tx) => {
     expensesTotals.set(
       tx.category,
       (expensesTotals.get(tx.category) || 0) + tx.amount
@@ -34,16 +50,15 @@ const DonutChart = ({ expenses = [], categoryColors }) => {
     ],
   };
 
-  const options = {
+  const options: ChartOptions<"doughnut"> = {
     responsive: true,
     maintainAspectRatio: false,
     plugins: {
       tooltip: {
         callbacks: {
-          title: function (tooltipItems) {
-            const date = tooltipItems[0].parsed.x;
-            const day = new Date(date).toDateString();
-            return `${day}`;
+          title: function (tooltipItems: TooltipItem<"doughnut">[]) {
+            const label = tooltipItems[0].label;
+            return `${label}`;
           },
         },
       },
@@ -53,11 +68,11 @@ const DonutChart = ({ expenses = [], categoryColors }) => {
   };
 
   return (
-        <Doughnut
-          className={styles.donutChart}
-          data={chartData}
-          options={options}
-        />
+    <Doughnut
+      className={styles.donutChart}
+      data={chartData}
+      options={options}
+    />
   );
 };
 

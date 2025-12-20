@@ -6,19 +6,27 @@ import Topnavbar from "../components/navbars/topnavbar";
 import Charts from "../components/charts/charts";
 import YearlyCharts from "../components/yearlyCharts/yearlyCharts";
 import Transactions from "../components/transactions/transactions";
+import {
+  User,
+  Transaction,
+  TransactionTypeColor,
+  CategoryColor,
+} from "../types";
 import styles from "./dashboard.module.css";
 
 export default function DashboardPage() {
-  const [user, setUser] = useState(null);
-  const [error, setError] = useState(null);
-  const [transactions, setTransactions] = useState([]);
+  const [user, setUser] = useState<User>();
+  const [error, setError] = useState<string | null>(null);
+  const [transactions, setTransactions] = useState<Transaction[]>();
   const [transactionsError, setTransactionsError] = useState(null);
   const [yearlyTransactions, setYearlyTransactions] = useState([]);
-  const [categoryColors, setCategoryColors] = useState([]);
-  const [typeColors, setTypeColors] = useState([]);
+  const [categoryColors, setCategoryColors] = useState<CategoryColor[]>();
+  const [typeColors, setTypeColors] = useState<TransactionTypeColor[]>();
   const [activeTab, setActiveTab] = useState("charts");
   const searchParams = useSearchParams();
-  const [mode, setMode] = useState<string>(searchParams.get("view")||"monthly");
+  const [mode, setMode] = useState<string>(
+    searchParams.get("view") || "monthly"
+  );
   const [userYears, setUserYears] = useState([]);
 
   const router = useRouter();
@@ -32,15 +40,15 @@ export default function DashboardPage() {
     Number(searchParams.get("year")) || today.getFullYear()
   );
 
-  const updateSelection = (month, year, view) => {
+  const updateSelection = (month: number, year: number, view: string) => {
     setSelectedMonth(month);
     setSelectedYear(year);
     setMode(view);
     const params = new URLSearchParams();
-    params.set("year", year);
+    params.set("year", `${year}`);
     params.set("view", view);
     if (view === "monthly") {
-      params.set("month", month);
+      params.set("month", `${month}`);
     }
     if (router) {
       router.replace(`?${params.toString()}`);
@@ -67,7 +75,12 @@ export default function DashboardPage() {
         const result = await response.json();
         setUser(result);
       } catch (err) {
-        setError(err);
+        if (err instanceof Error) {
+          setError(err.message);
+          console.error(err.message);
+        } else {
+          setError("Error fetching user data");
+        }
       }
     }
 
@@ -89,7 +102,12 @@ export default function DashboardPage() {
         const result = await response.json();
         setTransactions(result);
       } catch (err) {
-        setTransactionsError(err);
+        if (err instanceof Error) {
+          setError(err.message);
+          console.error(err.message);
+        } else {
+          setError("Error fetching transactions");
+        }
       }
     }
 
@@ -166,7 +184,7 @@ export default function DashboardPage() {
     window.location.href = `${process.env.NEXT_PUBLIC_BACKEND_URL}/oauth/logout`;
   };
 
-  const handleActiveTabChange = (e) => {
+  const handleActiveTabChange = (e: React.ChangeEvent<HTMLElement>) => {
     setActiveTab(e.target.id);
   };
 
@@ -184,7 +202,7 @@ export default function DashboardPage() {
           userName={user.displayName}
           handleLogout={handleLogout}
           activeTab={activeTab}
-          handleActiveTabChange={handleActiveTabChange}
+          handleActiveTabChange={(e) => handleActiveTabChange(e)}
           categoryColors={categoryColors}
           typeColors={typeColors}
         />

@@ -6,16 +6,31 @@ import IncomeExpensesBarGraph from "./incomeExpensesBarGraph";
 import CategoryTrendsLineGraph from "./categoryTrendsLineGraph";
 import CategoryRanking from "./categoryRankingHorizontalBarChart";
 import IncomeSourcesPieChart from "./incomeSourcesPieChart";
+import {
+  CategoryColor,
+  Transaction,
+  TransactionTypeColor,
+  UserSummary,
+} from "@/app/types";
 
-const YearlyCharts = ({
-  transactions = [],
-  selectedMonth = 0,
-  selectedYear = 0,
-  mode = "",
-  categoryColors = [],
-  typeColors = [],
+interface YearlyChartsProps {
+  transactions: Transaction[] | undefined;
+  selectedMonth: number;
+  selectedYear: number;
+  mode: string;
+  categoryColors: CategoryColor[] | undefined;
+  typeColors: TransactionTypeColor[] | undefined;
+}
+
+const YearlyCharts: React.FC<YearlyChartsProps> = ({
+  transactions,
+  selectedMonth,
+  selectedYear,
+  mode,
+  categoryColors,
+  typeColors,
 }) => {
-  const [userSummary, setUserSummary] = useState({});
+  const [userSummary, setUserSummary] = useState<UserSummary>();
 
   useEffect(() => {
     async function fetchUserSummary() {
@@ -39,13 +54,14 @@ const YearlyCharts = ({
     fetchUserSummary();
   }, [selectedMonth, selectedYear]);
 
-  const expenses = transactions.filter((tx) => tx.type === "Expense");
+  const expenses = transactions?.filter((tx) => tx.type === "Expense");
 
-  const income = transactions.filter((tx) => tx.type === "Income");
+  const income = transactions?.filter((tx) => tx.type === "Income");
 
-  const incomeColor = typeColors.filter((t) => t.type === "Income")[0]?.color;
+  const incomeColor = typeColors?.filter((t) => t.type === "Income")[0]?.color;
 
-  const expenseColor = typeColors.filter((t) => t.type === "Expense")[0]?.color;
+  const expenseColor = typeColors?.filter((t) => t.type === "Expense")[0]
+    ?.color;
 
   return (
     <div
@@ -61,21 +77,25 @@ const YearlyCharts = ({
     >
       <div className={styles.charts}>
         <div className={styles.chartGroup}>
-          <div className={styles.chart}>
-            <IncomeExpensesBarGraph
-              income={income}
-              expenses={expenses}
-              incomeColor={incomeColor}
-              expenseColor={expenseColor}
-            ></IncomeExpensesBarGraph>
-          </div>
-          <div className={styles.smallChart}>
-            <CategoryRanking
-              expenses={expenses}
-              categoryColors={categoryColors}
-            ></CategoryRanking>
-          </div>
-          {income.length > 0 && (
+          {income && (
+            <div className={styles.chart}>
+              <IncomeExpensesBarGraph
+                income={income}
+                expenses={expenses}
+                incomeColor={incomeColor}
+                expenseColor={expenseColor}
+              ></IncomeExpensesBarGraph>
+            </div>
+          )}
+          {expenses && (
+            <div className={styles.smallChart}>
+              <CategoryRanking
+                expenses={expenses}
+                categoryColors={categoryColors}
+              ></CategoryRanking>
+            </div>
+          )}
+          {income && (
             <div className={styles.smallChart}>
               <IncomeSourcesPieChart
                 income={income}
@@ -83,12 +103,14 @@ const YearlyCharts = ({
               ></IncomeSourcesPieChart>
             </div>
           )}
-          <div className={styles.chart}>
-            <CategoryTrendsLineGraph
-              expenses={expenses}
-              categoryColors={categoryColors}
-            ></CategoryTrendsLineGraph>
-          </div>
+          {expenses && (
+            <div className={styles.chart}>
+              <CategoryTrendsLineGraph
+                expenses={expenses}
+                categoryColors={categoryColors}
+              ></CategoryTrendsLineGraph>
+            </div>
+          )}
         </div>
         <div className={styles.side}>
           <div className={styles.chatbotContainer}>

@@ -9,7 +9,10 @@ import {
   Title,
   Tooltip,
   Legend,
+  TooltipItem,
+  ChartOptions,
 } from "chart.js";
+import { Transaction } from "@/app/types";
 import "chartjs-adapter-date-fns";
 import styles from "./charts.module.css";
 
@@ -24,7 +27,21 @@ ChartJS.register(
   Legend
 );
 
-const LineChart = ({ month = 0, income = [], expenses = [], incomeColor = "", expenseColor = ""}) => {
+interface LineChartProps {
+  month: number;
+  income: Transaction[]|undefined;
+  expenses: Transaction[]|undefined;
+  incomeColor: string|undefined;
+  expenseColor: string|undefined;
+}
+
+const LineChart: React.FC<LineChartProps> = ({
+  month = 0,
+  income = [],
+  expenses = [],
+  incomeColor = "",
+  expenseColor = "",
+}) => {
   const months = [
     "January",
     "February",
@@ -80,7 +97,7 @@ const LineChart = ({ month = 0, income = [], expenses = [], incomeColor = "", ex
         label: "Income ($)",
         data: incomePoints,
         borderColor: incomeColor,
-        backgroundColor: incomeColor+'40',
+        backgroundColor: incomeColor + "40",
         tension: 0.3,
         pointRadius: 4,
       },
@@ -88,22 +105,22 @@ const LineChart = ({ month = 0, income = [], expenses = [], incomeColor = "", ex
         label: "Expenses ($)",
         data: expensePoints,
         borderColor: expenseColor,
-        backgroundColor: expenseColor+'40',
+        backgroundColor: expenseColor + "40",
         tension: 0.3,
         pointRadius: 4,
       },
     ],
   };
 
-  const options = {
+  const options: ChartOptions<"line"> = {
     responsive: true,
     maintainAspectRatio: false,
     plugins: {
       tooltip: {
         callbacks: {
-          title: function (tooltipItems) {
+          title: function (tooltipItems: TooltipItem<"line">[]) {
             const date = tooltipItems[0].parsed.x;
-            const day = new Date(date).toDateString();
+            const day = date && new Date(date).toDateString();
             return `${day}`;
           },
         },

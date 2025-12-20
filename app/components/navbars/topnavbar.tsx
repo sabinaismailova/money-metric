@@ -1,14 +1,15 @@
 "use client";
 import { useState } from "react";
 import styles from "./navbars.module.css";
+import { CategoryColor, TransactionTypeColor, TransactionType} from "@/app/types";
 
 interface TopnavbarProps {
-  userName: String;
+  userName: string|undefined;
   handleLogout: () => void;
-  activeTab: String;
+  activeTab: string;
   handleActiveTabChange: (e: any) => void;
-  categoryColors: [];
-  typeColors: [];
+  categoryColors: CategoryColor[] | undefined;
+  typeColors: TransactionTypeColor[] | undefined;
 }
 
 const Topnavbar: React.FC<TopnavbarProps> = ({
@@ -21,9 +22,9 @@ const Topnavbar: React.FC<TopnavbarProps> = ({
 }) => {
   const [settingsOpen, setSettingsOpen] = useState(false);
   const [logout, setLogout] = useState(false);
-  const colors = new Map(categoryColors.map((c) => [c.category, c.color]));
+  const colors = new Map(categoryColors?.map((c) => [c.category, c.color]));
   const [colorMap, setColorMap] = useState(colors);
-  const typeColor = new Map(typeColors.map((t) => [t.type, t.color]));
+  const typeColor = new Map(typeColors?.map((t) => [t.type, t.color]));
   const [typeColorMap, setTypeColorMap] = useState(typeColor);
 
   const isEqual = (m1: Map<string, string>, m2: Map<string, string>) =>
@@ -35,7 +36,7 @@ const Topnavbar: React.FC<TopnavbarProps> = ({
     setColorMap(updated);
   };
 
-  const handleTypeColorChange = (type: string, newColor: string) => {
+  const handleTypeColorChange = (type: TransactionType, newColor: string) => {
     const updated = new Map(typeColorMap);
     updated.set(type, newColor);
     setTypeColorMap(updated);

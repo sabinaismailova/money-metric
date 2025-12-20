@@ -7,7 +7,9 @@ import {
   Title,
   Tooltip,
   Legend,
+  ChartOptions,
 } from "chart.js";
+import { Transaction } from "@/app/types";
 
 ChartJS.register(
   CategoryScale,
@@ -18,7 +20,19 @@ ChartJS.register(
   Legend
 );
 
-const IncomeExpensesBarGraph = ({ income = [], expenses = [], incomeColor = "", expenseColor = "" }) => {
+interface IncomeExpensesBarGraphProps {
+  income: Transaction[]|undefined;
+  expenses: Transaction[]|undefined;
+  incomeColor: string|undefined;
+  expenseColor: string|undefined;
+}
+
+const IncomeExpensesBarGraph: React.FC<IncomeExpensesBarGraphProps> = ({
+  income,
+  expenses,
+  incomeColor,
+  expenseColor,
+}) => {
   const months = [
     "Jan",
     "Feb",
@@ -36,7 +50,7 @@ const IncomeExpensesBarGraph = ({ income = [], expenses = [], incomeColor = "", 
 
   const incomeMonthlyTotals = new Map();
 
-  income.forEach((tx) => {
+  income?.forEach((tx) => {
     let month = new Date(tx.date).getMonth();
     incomeMonthlyTotals.set(
       month,
@@ -46,7 +60,7 @@ const IncomeExpensesBarGraph = ({ income = [], expenses = [], incomeColor = "", 
 
   const expensesMonthlyTotals = new Map();
 
-  expenses.forEach((tx) => {
+  expenses?.forEach((tx) => {
     let month = new Date(tx.date).getMonth();
     expensesMonthlyTotals.set(
       month,
@@ -76,7 +90,7 @@ const IncomeExpensesBarGraph = ({ income = [], expenses = [], incomeColor = "", 
     ],
   };
 
-  const options = {
+  const options: ChartOptions<"bar"> = {
     indexAxis: "x",
     responsive: true,
     maintainAspectRatio: false,
