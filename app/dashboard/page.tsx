@@ -24,13 +24,9 @@ export default function DashboardPage() {
   const [typeColors, setTypeColors] = useState<TransactionTypeColor[]>();
   const [activeTab, setActiveTab] = useState("charts");
   const searchParams = useSearchParams();
-  const [mode, setMode] = useState<string>("monthly");
-
-  useEffect(() => {
-    const searchParams = new URLSearchParams(window.location.search);
-    const view = searchParams.get("view");
-    if (view) setMode(view);
-  }, []);
+  const [mode, setMode] = useState<string>(
+    searchParams.get("view") || "monthly"
+  );
 
   const [userYears, setUserYears] = useState([]);
 
