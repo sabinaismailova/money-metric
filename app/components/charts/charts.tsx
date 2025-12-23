@@ -62,9 +62,15 @@ const Charts: React.FC<ChartsProps> = ({
 
   const income = transactions?.filter((tx) => tx.type === "Income");
 
-  const incomeColor = typeColors?.filter((t) => t.type === "Income")[0].color;
+  const incomeColor =
+    typeColors && typeColors.filter((t) => t.type === "Income").length > 0
+      ? typeColors.filter((t) => t.type === "Income")[0].color
+      : "";
 
-  const expenseColor = typeColors?.filter((t) => t.type === "Expense")[0].color;
+  const expenseColor =
+    typeColors && typeColors.filter((t) => t.type === "Expense").length > 0
+      ? typeColors.filter((t) => t.type === "Expense")[0].color
+      : "";
 
   return (
     <div
@@ -78,7 +84,7 @@ const Charts: React.FC<ChartsProps> = ({
         overflowY: "scroll",
       }}
     >
-      {transactions && transactions.length>0 ? (
+      {transactions && transactions.length > 0 ? (
         <div className={styles.charts}>
           <div className={styles.chartGroup}>
             {expenses && expenses.length > 0 && (
@@ -146,14 +152,16 @@ const Charts: React.FC<ChartsProps> = ({
             )}
           </div>
           <div className={styles.side}>
-            <div className={styles.cardChart}>
-              <AvailableBalanceCard
-                selectedMonth={selectedMonth}
-                selectedYear={selectedYear}
-                incomeColor={incomeColor}
-                expenseColor={expenseColor}
-              />
-            </div>
+            {transactions.length > 0 && (
+              <div className={styles.cardChart}>
+                <AvailableBalanceCard
+                  selectedMonth={selectedMonth}
+                  selectedYear={selectedYear}
+                  incomeColor={incomeColor}
+                  expenseColor={expenseColor}
+                />
+              </div>
+            )}
             <div className={styles.chatbotContainer}>
               <InsightsChatbot userSummary={userSummary}></InsightsChatbot>
             </div>
