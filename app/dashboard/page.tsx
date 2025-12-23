@@ -158,7 +158,7 @@ export default function DashboardPage() {
     }
 
     fetchCategoryColors();
-  }, [categoryColors]);
+  }, []);
 
   useEffect(() => {
     async function fetchTransactionTypeColors() {
@@ -175,7 +175,7 @@ export default function DashboardPage() {
     }
 
     fetchTransactionTypeColors();
-  }, [typeColors]);
+  }, []);
 
   if (!user) return <p>Loading dashboard...</p>;
 
